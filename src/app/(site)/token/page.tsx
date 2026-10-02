@@ -17,28 +17,28 @@ const FACTS: [string, string][] = [
 ];
 
 const CHAPTERS = [
-  { kicker: "Where and when it can be spent", title: "Pocket money that knows the rules", body: "Attach the conditions to the funds instead of relying on the person who receives them. Pocket money that only works at weekends, a grocery budget that will not pay for anything else, an allowance that cannot go in one afternoon." },
-  { kicker: "How long it lasts", title: "Money with an end date", body: "Funds do not have to sit around forever. Give them a lifespan and they come back, move on or stop existing on their own, with no reminder and no awkward conversation about what is left." },
-  { kicker: "What it can be used for", title: "Currency with one job", body: "A donation that can only reach charitable outcomes. A grant that cannot be repurposed. The condition sits in the money, so the receiver never has to be trusted and never has to be audited." },
-  { kicker: "Protecting the terms", title: "The terms hold, even against you", body: "The recipient sees the terms before accepting. A second rule can say who may loosen them, how many approvals that takes and how much notice is given." },
-  { kicker: "Unlocks", title: "Money that opens one step at a time", body: "Funds can arrive whole but stay closed until something happens: rent paid, a deposit reached, a delivery confirmed. Each step opens the next." },
-  { kicker: "How far the terms travel", title: "One hop, or all the way", body: "By default your terms end with the person you paid, and whoever they pay receives ordinary money. Say so, and the conditions travel further with the funds." },
-  { kicker: "Governance", title: "The economics are not ours to change alone", body: `Supply and the fee model for ${BRAND.symbol} are meant to be set by the people who use it, through the same rule-change process as everything else: the conditions are met first, then the change applies.` },
+  { kicker: "Spending scope", title: "Pin money to its purpose", body: "A grocery allowance that refuses everything except groceries. Saturday-only spending money for a child. A travel budget valid in one city. The condition is part of the payment, so nobody has to police it afterwards." },
+  { kicker: "Lifetime", title: "Payments that run out", body: "Set a date and the unused part returns to you, passes to someone else, or is retired. Useful for gifts, grants and trial budgets you would otherwise have to chase." },
+  { kicker: "Purpose", title: "Single-use money", body: "Funds raised for a roof repair can only pay roofers. A scholarship only reaches tuition. Donors get certainty without asking the recipient for receipts." },
+  { kicker: "Tamper resistance", title: "Conditions that outlast second thoughts", body: "Before accepting, a recipient can read every condition. A guarding rule decides whether those conditions may be relaxed later, by whom, and after how much notice." },
+  { kicker: "Milestones", title: "Release in stages", body: "Send the whole amount now and let it open in parts: the deposit when the lease is signed, the remainder when the keys change hands." },
+  { kicker: "Reach", title: "Choose how far conditions follow the money", body: "Normally the conditions stop with your recipient, and whoever they pay gets unconditional funds. You can extend them one more step, or for good." },
+  { kicker: "Governance", title: "Holders set the economics", body: `Supply and fees are intended to be decided by ${BRAND.symbol} holders, through the same propose-then-check process that governs every other rule.` },
 ];
 
 const EARLY = [
-  ["Drafting credit", "A prepaid allowance for drafting and checking rules once a language model is placed in front of the grammar."],
-  ["First choice of names", "Claim a readable account name before names open to everyone."],
-  ["Listing priority", "First in line to publish rule templates that other people can install."],
-  ["Credit for your work", "Contribute a rule primitive and get named next to it in the documentation."],
+  ["Assistant credit", "Prepaid drafting and checking once a language model is added in front of the grammar."],
+  ["Reserved handles", "Pick a short account name before general sign-up opens."],
+  ["Template slots", "Publish rule templates for other people ahead of the public release."],
+  ["Attribution", "People who contribute rule building blocks are credited in the documentation."],
 ];
 
 export default function TokenPage() {
   return (
     <>
       <NightHero
-        title="Money you can program"
-        lead={`${BRAND.symbol}. When a plain payment is not enough, attach the strings you need: where it can be spent, how fast, on what, and when it comes back.`}
+        title="A currency with conditions"
+        lead={`${BRAND.symbol} lets a sender decide what a payment may be used for, how quickly, and for how long. The recipient sees every condition before accepting.`}
         actions={<a href="#contract" className="btn btn-acc">Contract address</a>}
         aside={
           <dl className="border-t border-line font-sans">
@@ -55,9 +55,9 @@ export default function TokenPage() {
       <section id="contract" className="wrap scroll-mt-[76px] pt-[var(--section)]">
         <div className="night night-bg grid grid-cols-1 gap-8 rounded-[12px] px-6 py-9 sm:px-10 sm:py-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
           <div>
-            <h2 className="h2">The one address to trust</h2>
+            <h2 className="h2">Where the address will appear</h2>
             <p className="mt-4 max-w-[30em] font-serif text-[17px] leading-[1.6] text-ink-2">
-              {BRAND.symbol} is not deployed yet and is not listed anywhere. When it is, its address appears here and in the site footer, ready to copy. Treat any address shared before then as someone else&apos;s.
+              There is no {BRAND.symbol} contract yet and no market for it. The real address will be published on this page and in the footer, with a copy button. Ignore any address that circulates before then.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-3">
@@ -87,8 +87,8 @@ export default function TokenPage() {
       <section className="border-y border-line bg-g2">
         <div className="wrap grid grid-cols-1 gap-10 py-[var(--section)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
           <div>
-            <h2 className="h2">What being early is meant to get you</h2>
-            <p className="copy mt-4">None of this is live, and none of it is a promise of value. It is the intended programme for people who hold {BRAND.symbol} before the full release, and it may change before then.</p>
+            <h2 className="h2">Planned perks for early holders</h2>
+            <p className="copy mt-4">Nothing here is live and none of it implies the token will be worth anything. These are intentions for people who hold {BRAND.symbol} before the full release, and they may change.</p>
           </div>
           <dl className="grid border-t border-line">
             {EARLY.map(([k, v]) => (

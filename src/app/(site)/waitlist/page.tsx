@@ -4,14 +4,14 @@ import { BRAND } from "@/config/brand";
 import { Waitlist } from "@/components/pages/Waitlist";
 
 export const metadata: Metadata = {
-  title: "Join the waitlist",
+  title: "Early access",
   description: `Request an early ${BRAND.name} account. Sign with your wallet, no gas.`,
 };
 
 const STEPS = [
-  ["An invite arrives", "When your group comes up, you get a link to open an early account."],
-  ["You open the account", "You hold the keys from the first moment. Nobody else ever does."],
-  ["You set your first rule", "Say what the account must do. Early on, not every rule in the studio will be enforceable yet."],
+  ["You receive an invite", "We contact you when a place opens for your group."],
+  ["You create the account", "Keys are generated on your device and never leave your control."],
+  ["You add rules", "Start with one sentence. Some rule types arrive after the first release."],
 ];
 
 export default function WaitlistPage() {
@@ -20,8 +20,8 @@ export default function WaitlistPage() {
       <section className="night night-bg">
         <div className="wrap grid grid-cols-1 gap-12 pb-20 pt-16 sm:pt-24 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
           <div>
-            <h1 className="display">Join the waitlist</h1>
-            <p className="mt-7 max-w-[30em] font-serif text-[18px] leading-[1.6] text-ink-2">Accounts will open in small groups, so every early user gets a real conversation with us about the rules they want. Leave your details, and write a rule in the studio while you wait.</p>
+            <h1 className="display">Get early access</h1>
+            <p className="mt-7 max-w-[30em] font-serif text-[18px] leading-[1.6] text-ink-2">We are letting people in a few at a time, so we can talk through the rules each person needs. Leave your details here and try the Rule Studio in the meantime.</p>
             <p className="mt-8 text-[15px] text-ink-3">Token: <span className="font-mono text-acc">{BRAND.symbol}</span></p>
           </div>
           <div className="min-w-0">
@@ -31,8 +31,8 @@ export default function WaitlistPage() {
       </section>
       <section className="wrap grid grid-cols-1 gap-10 py-[var(--section)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
         <div>
-          <h2 className="h2">What happens next</h2>
-          <Link href="/studio" className="mt-4 inline-block text-[15px] font-semibold text-acc underline underline-offset-2">Write a rule while you wait</Link>
+          <h2 className="h2">After you sign up</h2>
+          <Link href="/studio" className="mt-4 inline-block text-[15px] font-semibold text-acc underline underline-offset-2">Try the Rule Studio now</Link>
         </div>
         <ol className="grid border-t border-line">
           {STEPS.map(([t, b], i) => (

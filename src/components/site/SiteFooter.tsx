@@ -14,7 +14,7 @@ export function SiteFooter() {
             <Mark size={26} />
             <span className="font-display text-[18px] font-bold tracking-[-0.02em]">{BRAND.word} <span className="font-medium text-ink-3">Finance</span></span>
           </Link>
-          <p className="mt-4 max-w-[340px] font-serif text-[16px] leading-[1.55] text-ink-2">Rules enforced by the account, not by a promise.</p>
+          <p className="mt-4 max-w-[340px] font-serif text-[16px] leading-[1.55] text-ink-2">Your instructions, kept by the account.</p>
           <div className="mt-8">
             <CaBlock />
           </div>

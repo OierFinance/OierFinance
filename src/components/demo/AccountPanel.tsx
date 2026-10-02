@@ -75,7 +75,7 @@ export function AccountPanel({ heading = "Your account", sticky = true }: { head
       if (!res.ok) {
         setDraft(null);
         setFindings([]);
-        setError(res.error.startsWith("This sentence") ? "Planned. The preview grammar cannot read this one yet, so nothing was drafted." : res.error);
+        setError(res.error.startsWith("This sentence") ? "Planned. The preview grammar does not understand this instruction yet, so nothing was drafted." : res.error);
         return;
       }
       setError(null);
@@ -95,7 +95,7 @@ export function AccountPanel({ heading = "Your account", sticky = true }: { head
   const blocked = findings.some((f) => f.level === "error");
   const txRules = set.rules.filter((r): r is TxRule => r.type === "tx");
   const firstParty = txRules.flatMap((r) => r.clauses.flatMap((c) => (c.k === "allowTo" ? c.parties : []))).find((p) => p !== "@contacts");
-  const testTo = to || (firstParty ? label(firstParty) : "Jack");
+  const testTo = to || (firstParty ? label(firstParty) : "Priya");
   const amt = Number(amount.replace(/,/g, ""));
   const verdict =
     amt > 0
@@ -146,7 +146,7 @@ export function AccountPanel({ heading = "Your account", sticky = true }: { head
             <p className="mt-2 text-[14px] text-hold" data-panel-error>{error}</p>
           </div>
         ) : (
-          <p className="text-[14px] leading-[1.5] text-ink-2">{outcome ?? "Pick a sentence on this page, or write your own below. It is drafted, checked against your rules, and applied only if it is consistent."}</p>
+          <p className="text-[14px] leading-[1.5] text-ink-2">{outcome ?? "Click a sample instruction or type one below. It is drafted, tested against your current rules, and only added if nothing conflicts."}</p>
         )}
 
         <div className="border-t border-line pt-3">
@@ -189,7 +189,7 @@ export function AccountPanel({ heading = "Your account", sticky = true }: { head
           if (text.trim()) run(text);
         }}
       >
-        <input className="field !h-10" value={text} onChange={(e) => setText(e.target.value)} placeholder="Describe what this account should allow" aria-label="Write a rule" data-panel-input />
+        <input className="field !h-10" value={text} onChange={(e) => setText(e.target.value)} placeholder="Type an instruction for this account" aria-label="Write a rule" data-panel-input />
         <button type="submit" className="btn btn-sm btn-acc !h-10 shrink-0" disabled={!text.trim()}>Draft</button>
       </form>
     </section>

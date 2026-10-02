@@ -15,7 +15,7 @@ import { CheckIcon, CopyIcon } from "@/components/icons";
 
 type Entry = { email: string; uses: string[]; referrer: string; handle: string; address: string | null; signature: string | null; at: number };
 
-const USES = ["Protecting my own account", "An allowance for family", "Paying an AI agent", "Running a business account", "Building on it"];
+const USES = ["Guarding my own savings", "Family allowances", "Budgets for AI agents", "Business payments", "Developing on Oier"];
 
 export function Waitlist() {
   const { address, signMessage } = useWallet();
@@ -74,9 +74,9 @@ export function Waitlist() {
             <button type="button" className="chip" onClick={async () => { try { await navigator.clipboard.writeText(entry.handle); setCopied(true); setTimeout(() => setCopied(false), 1400); } catch {} }}>
               {copied ? <CheckIcon className="size-3.5" /> : <CopyIcon className="size-3.5" />} {copied ? "Copied" : "Copy"}
             </button>
-            <a className="chip" target="_blank" rel="noreferrer" href={`https://x.com/intent/post?text=${encodeURIComponent(`Writing my own money rules with ${BRAND.xHandle}. Early access: ${BRAND.url}/waitlist (sent by ${entry.handle})`)}`}>Share on X</a>
+            <a className="chip" target="_blank" rel="noreferrer" href={`https://x.com/intent/post?text=${encodeURIComponent(`I am setting rules for my own wallet with ${BRAND.xHandle}. Early access: ${BRAND.url}/waitlist (sent by ${entry.handle})`)}`}>Share on X</a>
           </div>
-          <p className="mt-2 text-[12.5px] text-ink-3">Anyone who enters it as “Who sent you?” credits you.</p>
+          <p className="mt-2 text-[12.5px] text-ink-3">Friends who enter this name as their referrer are linked to you.</p>
         </div>
         <div className="mt-6 flex flex-wrap gap-3">
           <a href={blob} download="oier-early-access.json" className="btn btn-sm btn-acc">Download entry</a>
@@ -88,8 +88,8 @@ export function Waitlist() {
 
   return (
     <form onSubmit={submit} className="rounded-[10px] border border-line bg-g2 p-6 font-sans sm:p-8" data-waitlist-form>
-      <h2 className="h3">Request an invite</h2>
-      <p className="mt-3 text-[15px] leading-[1.6] text-ink-2">Accounts open in small groups. Sign with your wallet (no gas), leave an email, or both.</p>
+      <h2 className="h3">Your details</h2>
+      <p className="mt-3 text-[15px] leading-[1.6] text-ink-2">Sign with a wallet (free, no transaction), add an email, or do both.</p>
 
       <div className="mt-6 grid gap-2">
         <span className="label">Wallet</span>
@@ -107,7 +107,7 @@ export function Waitlist() {
       </label>
 
       <fieldset className="mt-5">
-        <legend className="label">What would you use it for?</legend>
+        <legend className="label">How do you plan to use Oier?</legend>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {USES.map((u) => {
             const on = uses.includes(u);
@@ -122,12 +122,12 @@ export function Waitlist() {
       </fieldset>
 
       <label className="mt-5 grid gap-2">
-        <span className="label">Who sent you? (optional)</span>
+        <span className="label">Referred by (optional)</span>
         <input className="field" value={referrer} onChange={(e) => setReferrer(e.target.value)} placeholder="their share name" maxLength={40} />
       </label>
 
       <button type="submit" disabled={!canSubmit || busy} className="btn btn-acc mt-7 w-full" data-waitlist-submit>
-        {busy ? "Confirm in wallet…" : address ? "Sign and join" : "Join early access"}
+        {busy ? "Confirm in wallet…" : address ? "Sign and request access" : "Request access"}
       </button>
       <p className="mt-3 text-[12.5px] text-ink-3">{!canSubmit ? "Pick at least one use, and connect a wallet or add an email." : "Stored on this device only. Nothing is sent to a server."}</p>
       {err ? <p className="mt-2 text-[12.5px] text-bad">{err}</p> : null}

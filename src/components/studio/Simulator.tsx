@@ -99,7 +99,7 @@ export function Simulator({
       <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
         <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3 sm:col-span-2">
           Recipient (name or 0x address)
-          <input className="field" list="sim-parties" value={to} onChange={(e) => setTo(e.target.value)} placeholder="Jack" data-sim-to />
+          <input className="field" list="sim-parties" value={to} onChange={(e) => setTo(e.target.value)} placeholder="Priya" data-sim-to />
           <datalist id="sim-parties">
             {parties.map((p) => <option key={p} value={label(p)} />)}
           </datalist>

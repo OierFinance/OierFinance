@@ -56,7 +56,7 @@ export function StoryWithPanel({ stories, heading, intro }: { stories: Story[]; 
   );
 }
 
-export function CtaBand({ title = "Be among the first to set a rule", body = "Early accounts open in small groups, so each one comes with a real conversation about the rules you need." }: { title?: string; body?: string }) {
+export function CtaBand({ title = "Ready when your account is", body = "We are opening accounts a few at a time. Put your name down and draft your first rules today." }: { title?: string; body?: string }) {
   return (
     <section className="wrap pb-[var(--section)]">
       <div className="grid grid-cols-1 gap-6 border-t border-ink pt-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
@@ -65,8 +65,8 @@ export function CtaBand({ title = "Be among the first to set a rule", body = "Ea
           <p className="copy mt-4">{body}</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Link href="/waitlist" className="btn btn-acc">Join the waitlist</Link>
-          <Link href="/studio" className="btn btn-ghost">Write a rule now</Link>
+          <Link href="/waitlist" className="btn btn-acc">Get early access</Link>
+          <Link href="/studio" className="btn btn-ghost">Open the Rule Studio</Link>
         </div>
       </div>
     </section>

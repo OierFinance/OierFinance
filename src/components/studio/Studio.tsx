@@ -14,11 +14,11 @@ import { sha256Hex, useRuleStore } from "./useRuleStore";
 import { Simulator } from "./Simulator";
 
 const EXAMPLES: { group: string; items: string[] }[] = [
-  { group: "Recipients", items: ["My account can only send to Jack and Coinbase", "Never send to Mallory", "New addresses wait 24 hours"] },
-  { group: "Amounts", items: ["No single payment above $5,000", "Cap daily spending at $2,000", "Anything over $1,000 needs a second approval", "Keep a reserve of $500"] },
-  { group: "Time", items: ["Block transactions overnight", "Let me recall a payment within 8 hours", "Lock the funds until 1 June 2027"] },
-  { group: "Agents", items: ["My agent can spend up to $50 a week on API credits only"] },
-  { group: "Rule chains", items: ["Changing rule 1 needs 3 approvals and a 30-day notice", "Rule 2 can never be removed"] },
+  { group: "Payees", items: ["Only pay Priya and Halden Exchange", "Never pay Mallory", "New payees wait 48 hours"] },
+  { group: "Amounts", items: ["Cap each transfer at $3,000", "Spend at most $1,200 a day", "Payments over $4,000 need an extra signature", "Keep at least $750"] },
+  { group: "Timing", items: ["Pause payments between 11pm and 7am", "Hold every payment for 6 hours", "Lock my savings until 1 March 2027"] },
+  { group: "Agents", items: ["My agent may spend $40 a week on cloud hosting only"] },
+  { group: "Rule chains", items: ["Changing rule 1 needs 2 approvals and a 7-day notice", "Freeze rule 2"] },
 ];
 
 function FindingRow({ f }: { f: Finding }) {
@@ -202,7 +202,7 @@ export function Studio() {
       <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-[640px]">
           <h1 className="h1">Rule Studio</h1>
-          <p className="lead mt-5">Write a rule in plain English. It is drafted into logic, checked against every rule you already have, and only then applied. Try transfers against the set before anything is real.</p>
+          <p className="lead mt-5">Type an instruction in plain English. Oier converts it into logic, compares it with every rule you already hold, and adds it only if nothing clashes. Then test transfers against the result.</p>
         </div>
         <div className="card flex min-w-0 flex-col gap-1.5 p-4 text-[14px] lg:w-[360px]" data-store-owner>
           <p className="label">Rules stored for</p>
@@ -254,7 +254,7 @@ export function Studio() {
                     void runDraft(text);
                   }
                 }}
-                placeholder="e.g. My account can only send to Jack and Coinbase"
+                placeholder="For example: Only pay Priya and Halden Exchange"
                 aria-label="Rule in plain English"
                 data-rule-input
               />
@@ -374,7 +374,7 @@ export function Studio() {
             <h2 className="text-[15px] font-semibold">Address book</h2>
             <p className="mt-2 text-[13px] text-ink-3">Names in rules work without addresses. Add one to resolve pasted addresses to a name, or to fill “addresses I’ve approved”.</p>
             <form className="mt-3 grid gap-2 sm:grid-cols-[1fr_1.4fr_auto]" onSubmit={(e) => { e.preventDefault(); addContact(); }}>
-              <input className="field" placeholder="Name, e.g. Jack" value={contactName} onChange={(e) => setContactName(e.target.value)} aria-label="Contact name" />
+              <input className="field" placeholder="Name, for example Priya" value={contactName} onChange={(e) => setContactName(e.target.value)} aria-label="Contact name" />
               <input className="field font-mono !text-[12.5px]" placeholder="0x… (optional)" value={contactAddr} onChange={(e) => setContactAddr(e.target.value)} aria-label="Contact address" />
               <button type="submit" className="btn btn-sm btn-ghost !h-[42px]">Add</button>
             </form>

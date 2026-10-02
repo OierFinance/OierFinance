@@ -89,7 +89,7 @@ export function TermsComposer() {
     <section className="min-w-0 overflow-hidden rounded-[12px] border border-line bg-g2 font-sans shadow-[0_18px_50px_-30px_rgba(18,32,58,0.45)] lg:sticky lg:top-[84px] lg:max-h-[calc(100vh-104px)] lg:overflow-y-auto" aria-label="Program a payment" data-composer>
       <header className="border-b border-line bg-g1 px-4 py-3">
         <p className="text-[15px] font-semibold">Program a payment</p>
-        <p className="text-[12.5px] text-ink-3">Terms are drafted and signed here; transfers with terms arrive with the token.</p>
+        <p className="text-[12.5px] text-ink-3">Draft and sign conditions here. Conditional transfers arrive with the token.</p>
       </header>
       <div className="grid grid-cols-1 gap-3 px-4 py-4 sm:grid-cols-2">
         <label className="grid grid-cols-1 gap-1 text-[13px] text-ink-3">Send to<input className="field" value={to} onChange={(e) => setTo(e.target.value)} /></label>
@@ -105,9 +105,9 @@ export function TermsComposer() {
         <label className="grid grid-cols-1 gap-1 text-[13px] text-ink-3">Unspent returns after (days)<input className="field num" inputMode="numeric" value={returnDays} onChange={(e) => setReturnDays(e.target.value)} placeholder="never" /></label>
         <label className="grid grid-cols-1 gap-1 text-[13px] text-ink-3">Stops existing after (days)<input className="field num" inputMode="numeric" value={expiryDays} onChange={(e) => setExpiryDays(e.target.value)} placeholder="never" /></label>
         <fieldset className="grid grid-cols-1 gap-1.5 text-[14px] text-ink-2 sm:col-span-2">
-          <legend className="text-[13px] text-ink-3">When the recipient pays someone else</legend>
-          <label className="flex items-center gap-2"><input type="radio" name="hops" checked={hops === "one"} onChange={() => setHops("one")} className="accent-[#0e7c6b]" /> The terms end with them</label>
-          <label className="flex items-center gap-2"><input type="radio" name="hops" checked={hops === "travel"} onChange={() => setHops("travel")} className="accent-[#0e7c6b]" /> The terms travel on with the money</label>
+          <legend className="text-[13px] text-ink-3">If the recipient pays someone else</legend>
+          <label className="flex items-center gap-2"><input type="radio" name="hops" checked={hops === "one"} onChange={() => setHops("one")} className="accent-[#0e7c6b]" /> Conditions stop with the recipient</label>
+          <label className="flex items-center gap-2"><input type="radio" name="hops" checked={hops === "travel"} onChange={() => setHops("travel")} className="accent-[#0e7c6b]" /> Conditions follow the money onward</label>
         </fieldset>
       </div>
 
@@ -122,13 +122,13 @@ export function TermsComposer() {
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <button type="button" className="btn btn-sm btn-acc" onClick={sign} data-sign-terms>{address ? "Sign the terms" : "Connect to sign"}</button>
-          <span className="text-[13px] text-ink-3">{sig ? `Signed ${sig.slice(0, 12)}…` : "A signature over the terms. No transfer, no gas."}</span>
+          <span className="text-[13px] text-ink-3">{sig ? `Signed ${sig.slice(0, 12)}…` : "Signs the conditions only. Nothing is sent."}</span>
         </div>
         {err ? <p className="mt-2 text-[13px] text-bad">{err}</p> : null}
       </div>
 
       <div className="border-t border-line bg-g1 px-4 py-4">
-        <p className="text-[13px] font-semibold text-ink-2">Now be the recipient and try to spend it</p>
+        <p className="text-[13px] font-semibold text-ink-2">Switch sides: spend it as the recipient</p>
         <div className="mt-2 grid grid-cols-3 gap-2">
           <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3">Amount<input className="field num !h-9" value={spend} onChange={(e) => setSpend(e.target.value)} inputMode="decimal" /></label>
           <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3">On<input className="field !h-9" value={spendCat} onChange={(e) => setSpendCat(e.target.value)} /></label>
@@ -136,7 +136,7 @@ export function TermsComposer() {
         </div>
         <p className={`mt-2 rounded-[6px] border px-3 py-2 text-[14px] verdict-${returned ? "deny" : ev.verdict}`} data-terms-verdict>
           {returned
-            ? `Day ${spendDay}: the unspent balance has already gone back to the sender.`
+            ? `Day ${spendDay}: whatever was left has already returned to the sender.`
             : ev.verdict === "allow"
               ? `Spends. ${ev.checks.map((c) => c.reason).join("; ") || "No terms limit this."}`
               : `Refused: ${ev.checks.filter((c) => !c.pass).map((c) => c.reason).join("; ")}.`}

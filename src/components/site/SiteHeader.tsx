@@ -39,7 +39,7 @@ export function SiteHeader() {
         <div className="ml-auto flex min-w-0 items-center gap-2">
           <NavCaPill />
           <Link href="/waitlist" className="btn btn-sm btn-ghost hidden xl:inline-flex">
-            Join waitlist
+            Early access
           </Link>
           <span className="hidden sm:inline-flex">
             <NavWallet />
@@ -63,7 +63,7 @@ export function SiteHeader() {
                 </button>
               </div>
               <nav className="wrap flex flex-1 flex-col overflow-y-auto pb-10 pt-2" aria-label="Mobile">
-                {[...SITE_NAV, { href: "/waitlist", label: "Join waitlist" }, { href: "/about", label: "About" }].map((item) => (
+                {[...SITE_NAV, { href: "/waitlist", label: "Early access" }, { href: "/about", label: "About" }].map((item) => (
                   <Link key={item.href} href={item.href} onClick={() => setMenu(false)} className="border-b border-line py-3.5 font-display text-[24px] font-bold tracking-[-0.02em] text-ink">
                     {item.label}
                   </Link>

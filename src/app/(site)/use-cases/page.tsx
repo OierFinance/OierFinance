@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 export default function UseCasesPage() {
   return (
     <>
-      <NightHero title="What people actually ask their account to do" sub="Every rule on this page started as one sentence. Run any of them in the account beside the list, read the logic it becomes, and apply it if the check passes." />
+      <NightHero title="Real situations, one sentence each" sub="Each card is a single instruction someone might give their account. Send any of them to the panel to see the logic it becomes and whether it clashes with your current rules." />
       <UseCases />
-      <CtaBand title="Your rule is not on this page yet" body="Write it in your own words in the Rule Studio. If the drafter cannot read it yet, it says so instead of guessing." />
+      <CtaBand title="Missing your situation?" body="Type it into the Rule Studio as you would say it. When the grammar cannot handle a sentence yet, it tells you rather than guessing." />
     </>
   );
 }

@@ -6,22 +6,22 @@ const MONO = "var(--font-plex-mono), Menlo, monospace";
 /** A signed transfer meets the rule set; one path settles, one is refused at R1. */
 export function TransferDiagram() {
   const gates = [
-    { id: "R1", f: "to ∈ {Jack, Coinbase}", y: 92 },
+    { id: "R1", f: "to ∈ {Priya, Halden}", y: 92 },
     { id: "R2", f: "spent(24h) + amount ≤ 2000", y: 172 },
-    { id: "R3", f: "amount > 5000 → cosigned", y: 252 },
+    { id: "R3", f: "amount > 4000 → cosigned", y: 252 },
   ];
   return (
     <figure className="draw" aria-labelledby="transfer-diagram-cap">
-      <svg viewBox="0 0 600 380" className="h-auto w-full" role="img" aria-label="Two transfers signed with the same key. One to Jack passes all three rules and settles. One to an unknown address fails R1 and is refused.">
+      <svg viewBox="0 0 600 380" className="h-auto w-full" role="img" aria-label="Two transfers signed with the same key. One to Priya passes all three rules and settles. One to an unknown address fails R1 and is refused.">
         <g fontFamily={SANS}>
           {/* signer */}
           <rect x="8" y="150" width="152" height="66" rx="8" fill="none" stroke="rgba(220,230,245,0.35)" />
           <text x="24" y="176" fill="#eef2f6" fontSize="14" fontWeight="600">Any key signs</text>
-          <text x="24" y="198" fill="#8f9cae" fontSize="12.5">yours, or a stolen one</text>
+          <text x="24" y="198" fill="#8f9cae" fontSize="12.5">yours or a thief's</text>
 
           {/* rule column */}
           <rect x="204" y="56" width="236" height="236" rx="8" fill="rgba(220,230,245,0.04)" stroke="rgba(220,230,245,0.22)" />
-          <text x="220" y="44" fill="#8f9cae" fontSize="12.5">Your rule set, checked in order</text>
+          <text x="220" y="44" fill="#8f9cae" fontSize="12.5">Rule set under test</text>
           {gates.map((g) => (
             <g key={g.id}>
               <rect x="216" y={g.y - 22} width="212" height="50" rx="6" fill="#16264a" stroke="rgba(220,230,245,0.18)" />
@@ -35,7 +35,7 @@ export function TransferDiagram() {
           <path className="trace" d="M428 270 C 456 270, 452 300, 470 300" fill="none" stroke="#74d6c3" strokeWidth="2" />
           <rect x="470" y="278" width="122" height="44" rx="6" fill="rgba(116,214,195,0.12)" stroke="#74d6c3" />
           <text x="484" y="298" fill="#a3e6d9" fontSize="13.5" fontWeight="600">Settles</text>
-          <text x="484" y="314" fill="#8f9cae" fontSize="11.5">$400 to Jack</text>
+          <text x="484" y="314" fill="#8f9cae" fontSize="11.5">$400 to Priya</text>
 
           {/* refused path */}
           <path d="M160 196 C 190 196, 186 112, 216 112" fill="none" stroke="#f39283" strokeWidth="2" strokeDasharray="5 5" />
@@ -44,7 +44,7 @@ export function TransferDiagram() {
           <text x="484" y="64" fill="#f6b3a8" fontSize="13.5" fontWeight="600">Refused</text>
           <text x="484" y="80" fill="#8f9cae" fontSize="11.5">at R1</text>
 
-          <text x="8" y="352" fill="#8f9cae" fontSize="12.5">The key only proposes. The rules decide whether money moves.</text>
+          <text x="8" y="352" fill="#8f9cae" fontSize="12.5">A signature asks. The rule set answers.</text>
         </g>
       </svg>
       <figcaption id="transfer-diagram-cap" className="sr-only">How a transfer is checked against a rule set</figcaption>
@@ -55,7 +55,7 @@ export function TransferDiagram() {
 /** Three rules, each governing the one before it. */
 export function ChainDiagram() {
   const rules = [
-    { id: "R1", head: "The rule", text: "Only sends to my two children.", f: "to ∈ {Ana, Leo}", x: 0 },
+    { id: "R1", head: "The rule", text: "Pays only Ana and Leo.", f: "to ∈ {Ana, Leo}", x: 0 },
     { id: "R2", head: "Who can change R1", text: "3 approvals, 30 days' notice.", f: "amend(R1) → approvals ≥ 3 ∧ notice ≥ 30d", x: 420 },
     { id: "R3", head: "What locks R2", text: "R2 can never be removed.", f: "amend(R2) → ⊥", x: 840 },
   ];
@@ -80,7 +80,7 @@ export function ChainDiagram() {
                 <text x={380 + 420 * i} y="133" textAnchor="middle" fill="#5b46ad" fontSize="12.5" fontWeight="600">governs</text>
               </g>
             ))}
-            <text x="0" y="236" fill="#66717f" fontSize="14">Read right to left: to loosen R1 you must first get past R2, and R3 says R2 stays.</text>
+            <text x="0" y="236" fill="#66717f" fontSize="14">Arrows point from the guard to the rule it guards.</text>
           </g>
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -106,9 +106,9 @@ export function ChainDiagram() {
 /** Three household accounts, each with the rule that protects it. */
 export function AccountSlips() {
   const slips = [
-    { who: "Personal account", rule: "Sends only to an approved list", f: "to ∈ approved", tilt: "" },
-    { who: "Mum's account", rule: "Pays the grandchildren and nobody else", f: "to ∈ {Ana, Leo}", tilt: "lg:ml-12" },
-    { who: "Kid's account", rule: "$10 a day, raised only with a parent", f: "spent(24h) + amount ≤ 10", tilt: "lg:ml-5" },
+    { who: "Personal account", rule: "Pays nobody outside its payee list", f: "to ∈ approved", tilt: "" },
+    { who: "Mum's account", rule: "Can only send money to Ana and Leo", f: "to ∈ {Ana, Leo}", tilt: "lg:ml-12" },
+    { who: "Kid's account", rule: "$15 a day; a parent signs to raise it", f: "spent(24h) + amount ≤ 15", tilt: "lg:ml-5" },
   ];
   return (
     <ul className="grid grid-cols-1 gap-3" aria-label="Example accounts and their rules">

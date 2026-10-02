@@ -8,22 +8,22 @@ export const metadata: Metadata = {
 };
 
 const STORIES: Story[] = [
-  { kicker: "Paying for work", title: "Committed up front, released as the work lands", body: "Prepaying a contractor means someone has to go first. Set the amount aside where both sides can see it and release it milestone by milestone, so neither side works blind.", prompts: ["Only send to Acme Studio", "Cap weekly spending at $2,000", "Escrow a prepayment"] },
-  { kicker: "Buying online", title: "Checkout with the leverage on your side", body: "Card numbers keep working after a breach, and subscriptions are easy to start and hard to stop, because the payment lives with the merchant. Here it lives with you.", prompts: ["No single payment above $200", "New addresses wait 24 hours", "Cancel a subscription from my side"] },
-  { kicker: "Books and reconciliation", title: "The paperwork arrives with the money", body: "Most bookkeeping exists because payment and context travel separately. Carry the invoice data on the payment and route the tax share at settlement, and the books close themselves.", prompts: ["Attach invoice data to the payment", "Split UK receipts into the VAT account"] },
-  { kicker: "What you accept", title: "Decide which money you take", body: "If terms can travel with a payment, some will not suit your business: funds restricted to certain uses, or recallable weeks later. State what you accept, and the rest is declined at the door.", prompts: ["Reject funds with spending restrictions", "Refuse recallable payments over a threshold"], dark: true },
+  { kicker: "Hiring", title: "Money set aside, paid out per milestone", body: "Park the full fee where the contractor can see it is real, then release a share as each agreed milestone is signed off. Nobody has to pay or work on faith.", prompts: ["Only pay Fernhill Studio", "Cap weekly spending at $1,500", "Release 25% when each milestone is signed off"] },
+  { kicker: "Shopping", title: "Card fraud and sticky subscriptions, handled from your side", body: "Each merchant gets a capped permission you can revoke, so a leaked card number or an unwanted renewal stops at your account instead of at a call centre.", prompts: ["Cap each payment at $150", "New payees wait 48 hours", "End any renewal I have not confirmed"] },
+  { kicker: "Accounting", title: "Receipts that file themselves", body: "Invoice references and the tax split travel inside the payment, so reconciliation happens at settlement rather than at month end.", prompts: ["Tag every payment with its invoice number", "Send the sales tax share to the tax account"] },
+  { kicker: "Acceptance", title: "Choose the money you will take", body: "Money arriving at your business may carry conditions. Your account can turn away payments that are restricted to certain uses or that the payer could claw back later.", prompts: ["Decline payments that come with conditions", "Decline refundable payments above $500"], dark: true },
 ];
 
 export default function CommercePage() {
   return (
     <>
       <NightHero
-        title="Commerce where the payment carries the deal"
-        lead="Escrow, milestones, tax splits and refund windows written into the payment, so neither side depends on the other's back office."
+        title="Payments that bring their own contract"
+        lead="Escrow, staged release, tax routing and refund windows ride along with the money, so buyer and seller do not have to trust each other's paperwork."
         actions={
           <>
-            <a href="#flows" className="btn btn-acc">See the flows</a>
-            <Link href="/use-cases" className="btn btn-ghost">More use cases</Link>
+            <a href="#flows" className="btn btn-acc">Four commerce flows</a>
+            <Link href="/use-cases" className="btn btn-ghost">Browse use cases</Link>
           </>
         }
       />
@@ -33,16 +33,16 @@ export default function CommercePage() {
       <section className="border-y border-line bg-g2">
         <div className="wrap grid grid-cols-1 gap-10 py-[var(--section)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
           <div>
-            <h2 className="h2">Terms on both ends of the payment</h2>
-            <p className="copy mt-4">The buyer&apos;s account enforces the buyer&apos;s conditions and yours enforces your receiving terms. Fewer disputes, fewer cancellation tickets, and reconciliation data that arrives with the funds.</p>
+            <h2 className="h2">Both sides enforce their own terms</h2>
+            <p className="copy mt-4">A buyer's account applies the buyer's conditions; a merchant's account applies its acceptance policy. The result is fewer chargebacks, fewer support tickets about cancellations, and books that balance the moment money lands.</p>
           </div>
           <dl className="grid border-t border-line">
             {[
-              ["The buyer says", "“No single payment above $200, and new merchants wait 24 hours.”"],
-              ["The payment carries", "The order reference, the tax share and a 14-day refund window."],
-              ["The merchant says", "“Reject funds with spending restrictions.” Ordinary funds settle; restricted ones are declined."],
+              ["Buyer's rule", "“Cap each payment at $150, and new payees wait 48 hours.”"],
+              ["Inside the payment", "An order number, the sales tax share and a two-week refund window."],
+              ["Merchant's rule", "“Decline payments that come with conditions.” Plain funds settle; conditional ones bounce."],
             ].map(([k, v]) => (
-              <div key={k} className="grid grid-cols-1 gap-1 border-b border-line py-5 sm:grid-cols-[180px_1fr] sm:gap-6">
+              <div key={k} className="grid gap-1 border-b border-line py-5 sm:grid-cols-[180px_1fr] sm:gap-6">
                 <dt className="text-[16px] font-semibold">{k}</dt>
                 <dd className="font-serif text-[16.5px] leading-[1.6] text-ink-2">{v}</dd>
               </div>
@@ -51,7 +51,7 @@ export default function CommercePage() {
         </div>
       </section>
       <div className="pt-[var(--section)]" />
-      <CtaBand title="Selling something?" body="Merchant accounts follow the first personal accounts. Join the waitlist and choose “Running a business account”." />
+      <CtaBand title="Run a business?" body="Merchant accounts follow soon after personal ones. Request early access and pick “Business payments”." />
     </>
   );
 }

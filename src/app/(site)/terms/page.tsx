@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Terms", description: `Terms for usin
 export default function TermsPage() {
   return (
     <Legal title="Terms of use" updated="2 October 2026">
-      <p>By using this site you agree to these terms. If you do not agree, please do not use it.</p>
+      <p>Using this site means you accept the terms below. If you would rather not, please stop using it.</p>
       <h2>A preview, not a service</h2>
       <p>The site and the Rule Studio are a public preview. They draft, check and simulate rules in your browser. They do not hold funds, execute transfers or enforce anything on a blockchain. Simulated outcomes describe what the rule logic decides; they are not a guarantee of how a future product will behave.</p>
       <h2>No advice</h2>

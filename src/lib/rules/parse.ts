@@ -88,7 +88,7 @@ export function parseDate(raw: string, now: number): number | null {
   return at;
 }
 
-/** Splits "Jack, Coinbase and my sister" into labels. */
+/** Splits "Priya, Halden Exchange and my sister" into labels. */
 function parties(raw: string): string[] {
   return raw
     .replace(/\b(?:addresses?|wallets?|accounts?)\s+(?:of|for)\s+/gi, "")
@@ -147,6 +147,12 @@ const extractors: Extract[] = [
   // Recipient blocklist.
   (s, out) =>
     s.replace(new RegExp(String.raw`\b(?:never|don't|do not|cannot|can't|can never|must never|block(?:\s+(?:all|any))?)\s+(?:${SEND}\s+)?(?:(?:funds|money|payments?|transfers?|anything)\s+)?to\s+(.+?)${STOP}`, "i"), (_m, list: string) => {
+      out.push({ k: "blockTo", parties: parties(list) });
+      return " ";
+    }),
+  (s, out) =>
+    s.replace(new RegExp(String.raw`\b(?:never|don't|do not|must not)\s+pay\s+(.+?)${STOP}`, "i"), (m, list: string) => {
+      if (/^(?:for|on|more|over|above)\b/i.test(list)) return m;
       out.push({ k: "blockTo", parties: parties(list) });
       return " ";
     }),
@@ -351,18 +357,18 @@ function parseMeta(text: string): Draft | null {
 }
 
 export const HINTS = [
-  "My account can only send to Jack and Coinbase",
-  "No single payment above $5,000",
-  "Cap daily spending at $2,000",
-  "Anything over $1,000 needs a second approval",
-  "Block transactions overnight",
-  "Let me recall a payment within 8 hours",
-  "New addresses wait 24 hours",
-  "Never send to 0x000000000000000000000000000000000000dEaD",
-  "Keep a reserve of $500",
-  "My agent can spend up to $50 a week on API credits only",
-  "Changing rule 1 needs 3 approvals and a 30-day notice",
-  "Rule 2 can never be removed",
+  "Only pay Priya and Halden Exchange",
+  "Cap each transfer at $3,000",
+  "Spend at most $1,200 a day",
+  "Payments over $4,000 need an extra signature",
+  "Pause payments between 11pm and 7am",
+  "Hold every payment for 6 hours",
+  "New payees wait 48 hours",
+  "Never pay Mallory",
+  "Keep at least $750",
+  "My agent may spend $40 a week on cloud hosting only",
+  "Changing rule 1 needs 2 approvals and a 7-day notice",
+  "Freeze rule 2",
 ];
 
 export function parseRule(input: string, now = Date.now()): ParseResult {
