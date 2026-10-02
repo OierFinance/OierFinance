@@ -57,7 +57,7 @@ export function Waitlist() {
   if (entry) {
     const blob = `data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify(entry, null, 2))}`;
     return (
-      <div className="card-hi p-6 sm:p-8" data-waitlist-done>
+      <div className="rounded-[10px] border border-line bg-g2 p-6 sm:p-8 font-sans" data-waitlist-done>
         <span className="grid size-10 place-items-center rounded-full bg-acc/15 text-acc"><CheckIcon className="size-5" /></span>
         <h2 className="h3 mt-4">You are on the list, on this device.</h2>
         <p className="mt-2 text-[15px] leading-[1.6] text-ink-2">
@@ -67,7 +67,7 @@ export function Waitlist() {
           <div><dt className="label">Interests</dt><dd className="mt-1 text-ink-2">{entry.uses.join(", ")}</dd></div>
           {entry.referrer ? <div><dt className="label">Sent by</dt><dd className="mt-1 text-ink-2">{entry.referrer}</dd></div> : null}
         </dl>
-        <div className="mt-6 rounded-[12px] border border-white/[0.1] bg-g1 p-4">
+        <div className="mt-6 rounded-[12px] border border-line bg-g1 p-4">
           <p className="label">Your share name</p>
           <div className="mt-2 flex flex-wrap items-center gap-3">
             <span className="font-mono text-[15px] text-ink">{entry.handle}</span>
@@ -87,8 +87,8 @@ export function Waitlist() {
   }
 
   return (
-    <form onSubmit={submit} className="card p-6 sm:p-8" data-waitlist-form>
-      <p className="tag">Request an invite</p>
+    <form onSubmit={submit} className="rounded-[10px] border border-line bg-g2 p-6 font-sans sm:p-8" data-waitlist-form>
+      <h2 className="h3">Request an invite</h2>
       <p className="mt-3 text-[15px] leading-[1.6] text-ink-2">Accounts open in small groups. Sign with your wallet (no gas), leave an email, or both.</p>
 
       <div className="mt-6 grid gap-2">
@@ -112,7 +112,7 @@ export function Waitlist() {
           {USES.map((u) => {
             const on = uses.includes(u);
             return (
-              <button key={u} type="button" aria-pressed={on} onClick={() => setUses(on ? uses.filter((x) => x !== u) : [...uses, u])} className={`chip ${on ? "!border-acc/60 !bg-acc/10 !text-ink" : ""}`}>
+              <button key={u} type="button" aria-pressed={on} onClick={() => setUses(on ? uses.filter((x) => x !== u) : [...uses, u])} className={`chip ${on ? "!border-acc !bg-acc/10" : ""}`}>
                 {on ? <CheckIcon className="size-3.5 text-acc" /> : null}
                 {u}
               </button>

@@ -1,62 +1,50 @@
 import Link from "next/link";
-import { BRAND, CHAIN } from "@/config/brand";
+import { BRAND } from "@/config/brand";
 import { FOOTER_NAV } from "@/config/nav";
 import { CaBlock } from "@/components/CopyCa";
-import { Lockup } from "@/components/Logo";
+import { Mark } from "@/components/Logo";
 import { GithubIcon, XIcon } from "@/components/icons";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-10 border-t border-white/[0.07] bg-g1">
-      <div className="wrap grid gap-12 py-16 lg:grid-cols-[1.2fr_2fr]">
+    <footer className="night night-bg font-sans">
+      <div className="wrap grid grid-cols-1 gap-12 pb-12 pt-16 lg:grid-cols-[1.3fr_2fr]">
         <div className="min-w-0">
-          <Lockup />
-          <p className="mt-4 max-w-[360px] text-[14.5px] leading-[1.6] text-ink-2">{BRAND.tagline}</p>
+          <Link href="/" className="flex items-center gap-2.5" aria-label={`${BRAND.name} home`}>
+            <Mark size={26} />
+            <span className="font-display text-[18px] font-bold tracking-[-0.02em]">{BRAND.word} <span className="font-medium text-ink-3">Finance</span></span>
+          </Link>
+          <p className="mt-4 max-w-[340px] font-serif text-[16px] leading-[1.55] text-ink-2">Rules enforced by the account, not by a promise.</p>
           <div className="mt-8">
             <CaBlock />
           </div>
-          <div className="mt-6 flex flex-wrap items-center gap-5 text-[14px] text-ink-2">
-            <a href={BRAND.x} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-ink">
-              <XIcon className="size-4" /> {BRAND.xHandle}
-            </a>
-            {BRAND.github ? (
-              <a href={BRAND.github} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-ink">
-                <GithubIcon className="size-4" /> GitHub
-              </a>
-            ) : null}
-          </div>
         </div>
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {FOOTER_NAV.map((col) => (
             <div key={col.title}>
-              <p className="label">{col.title}</p>
-              <ul className="mt-4 grid gap-2.5">
+              <p className="text-[14px] font-semibold text-ink">{col.title}</p>
+              <ul className="mt-3 grid gap-2">
                 {col.links.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="text-[14.5px] text-ink-2 transition-colors hover:text-ink">
-                      {l.label}
-                    </Link>
+                    <Link href={l.href} className="text-[14.5px] text-ink-2 transition-colors hover:text-ink">{l.label}</Link>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
+          <div>
+            <p className="text-[14px] font-semibold text-ink">Follow</p>
+            <ul className="mt-3 grid gap-2 text-[14.5px] text-ink-2">
+              <li><a href={BRAND.x} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:text-ink"><XIcon className="size-3.5" /> {BRAND.xHandle}</a></li>
+              {BRAND.github ? <li><a href={BRAND.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:text-ink"><GithubIcon className="size-3.5" /> GitHub</a></li> : null}
+            </ul>
+          </div>
         </div>
       </div>
-      <div className="border-t border-white/[0.06]">
-        <div className="wrap flex flex-col gap-2 py-6 text-[12.5px] text-ink-3 sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {new Date().getFullYear()} {BRAND.name}. Pre-launch preview; no live accounts or funds.
-          </p>
-          <p className="font-mono">
-            {BRAND.acronym.map((a) => (
-              <span key={a.letter}>
-                <span className="text-acc">{a.letter}</span>
-                {a.word.slice(1)}{" "}
-              </span>
-            ))}
-            · {CHAIN.name}
-          </p>
+      <div className="border-t border-line">
+        <div className="wrap flex flex-col gap-2 py-6 text-[13px] text-ink-3 sm:flex-row sm:justify-between">
+          <p>© {new Date().getFullYear()} {BRAND.name}. Preview site; no live accounts or funds.</p>
+          <p>{BRAND.slogan}</p>
         </div>
       </div>
     </footer>

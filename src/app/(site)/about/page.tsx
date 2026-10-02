@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BRAND, CHAIN } from "@/config/brand";
-import { CtaBand, PageHero, SectionHead } from "@/components/site/parts";
+import { CtaBand, NightHero } from "@/components/site/parts";
 
 export const metadata: Metadata = {
   title: "About",
@@ -10,57 +10,59 @@ export const metadata: Metadata = {
 
 const PRINCIPLES = [
   ["You hold the keys", "Self-custody from the first moment. Protection comes from your rules, not from someone else holding your money."],
-  ["Rules before code", "What the account must do is stated as a condition you can read, and checked before it applies."],
+  ["Rules before code", "What the account must do is written as a condition you can read, and checked before it applies."],
   ["No path through us", "No admin key, no override, no support ticket that unlocks a frozen rule. If you froze it, it stays frozen."],
-  ["Honest about status", "Live things are labelled live, planned things are labelled planned, and numbers that do not exist yet show as empty."],
+  ["Honest about status", "Live things are labelled live and planned things are labelled planned. Numbers that do not exist yet are left empty."],
 ];
 
 const ROADMAP = [
-  { when: "Now", what: "Rule Studio preview", detail: "Plain-English rules, logic view, consistency check, transfer simulator, signed rule sets. Wallet sign-in on " + CHAIN.name + "." },
-  { when: "Next", what: "Rule account on " + CHAIN.name, detail: "A smart account that evaluates your committed rules on every transfer: recipient lists, caps, approvals, delays and recovery." },
-  { when: "Then", what: BRAND.symbol + " with terms", detail: "Payments that carry spend rate, allowed uses, return date and expiry, enforced on the receiving side." },
-  { when: "Later", what: "Agents and builders", detail: "Agent accounts with budgets, installable rule templates and community governance of the rulebook." },
+  ["Now", "Rule Studio preview", `Plain-English rules, the logic view, the consistency check, a transfer simulator and signed rule sets, with wallet sign-in on ${CHAIN.name}.`],
+  ["Next", `A rule account on ${CHAIN.name}`, "A smart account that evaluates your committed rules on every transfer: recipient lists, caps, approvals, delays and recovery."],
+  ["Then", `${BRAND.symbol} with terms`, "Payments that carry a spend rate, allowed uses, a return date and an expiry, enforced on the receiving side."],
+  ["Later", "Agents and builders", "Agent accounts with budgets, installable rule templates and community governance of the rulebook."],
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <PageHero tag="About" title={<>Finance that does <span className="text-acc">what it was told.</span></>} lead={`${BRAND.name} is a research-driven team of engineers and logicians building a wallet whose protections are rules you write yourself, held to the letter by the account.`} />
+      <NightHero title="The team building Oier" lead="Engineers and logicians turning rule-based finance into something anyone can use." sub="The work is research-driven: it follows published results on decidable logic and self-governing specifications, and ships the parts a wallet needs first." />
 
-      <section className="wrap section !pt-12">
-        <SectionHead tag="Principles" title="Four things we will not trade away" />
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          {PRINCIPLES.map(([t, b]) => (
-            <div key={t} className="card p-6">
-              <h3 className="h3">{t}</h3>
-              <p className="mt-2.5 text-[15px] leading-[1.6] text-ink-2">{b}</p>
+      <section className="wrap grid grid-cols-1 gap-10 py-[var(--section)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+        <h2 className="h2">What we will not trade away</h2>
+        <dl className="grid border-t border-line">
+          {PRINCIPLES.map(([k, v]) => (
+            <div key={k} className="grid grid-cols-1 gap-1 border-b border-line py-5 sm:grid-cols-[200px_1fr] sm:gap-6">
+              <dt className="text-[17px] font-semibold">{k}</dt>
+              <dd className="font-serif text-[16.5px] leading-[1.6] text-ink-2">{v}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </section>
 
-      <section className="border-t border-white/[0.06] bg-g1">
-        <div className="wrap section">
-          <SectionHead tag="Where it stands" title="Roadmap" lead="Order, not dates. Each step ships when it is safe, and this page changes when it does." />
-          <ol className="mt-10 grid gap-3">
-            {ROADMAP.map((r, i) => (
-              <li key={r.when} className={`grid gap-2 rounded-[16px] border p-5 sm:grid-cols-[120px_1fr] sm:gap-6 ${i === 0 ? "border-acc/40 bg-acc/[0.04]" : "border-white/[0.08]"}`}>
-                <span className={`font-mono text-[12px] uppercase tracking-[0.1em] ${i === 0 ? "text-acc" : "text-ink-3"}`}>{r.when}</span>
-                <span>
-                  <span className="block font-medium">{r.what}</span>
-                  <span className="mt-1 block text-[14.5px] text-ink-2">{r.detail}</span>
-                </span>
+      <section className="border-y border-line bg-g2">
+        <div className="wrap grid grid-cols-1 gap-10 py-[var(--section)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+          <div>
+            <h2 className="h2">Where it stands</h2>
+            <p className="copy mt-4">An order, not dates. Each step ships when it is safe, and this page changes when it does.</p>
+          </div>
+          <ol className="relative grid gap-8 border-l-2 border-line pl-6">
+            {ROADMAP.map(([when, what, detail], i) => (
+              <li key={when} className="relative">
+                <span aria-hidden className={`absolute -left-[33px] top-1.5 size-3 rounded-full border-2 ${i === 0 ? "border-acc bg-acc" : "border-ink-3 bg-g2"}`} />
+                <p className={`text-[14px] font-semibold ${i === 0 ? "text-acc" : "text-ink-3"}`}>{when}</p>
+                <p className="mt-1 text-[19px] font-bold tracking-[-0.01em]">{what}</p>
+                <p className="mt-1.5 font-serif text-[16.5px] leading-[1.6] text-ink-2">{detail}</p>
               </li>
             ))}
           </ol>
-          <p className="mt-8 text-[14.5px] text-ink-2">
-            Questions, ideas or a rule you need: reach us on X at{" "}
-            <a href={BRAND.x} target="_blank" rel="noreferrer" className="text-acc hover:text-acc-hi">{BRAND.xHandle}</a>, or{" "}
-            <Link href="/waitlist" className="text-acc hover:text-acc-hi">join early access</Link>.
-          </p>
         </div>
       </section>
 
+      <section className="wrap py-[var(--section)]">
+        <p className="copy max-w-[40em]">
+          Questions, ideas or a rule you need: reach us on X at <a href={BRAND.x} target="_blank" rel="noreferrer" className="text-acc underline underline-offset-2">{BRAND.xHandle}</a>, or <Link href="/waitlist" className="text-acc underline underline-offset-2">join the waitlist</Link>.
+        </p>
+      </section>
       <CtaBand />
     </>
   );

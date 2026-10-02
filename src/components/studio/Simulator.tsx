@@ -93,51 +93,51 @@ export function Simulator({
   return (
     <div className="card mt-4 p-4 sm:p-5" data-simulator>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="label">4 · Simulate a transfer</h2>
+        <h2 className="text-[15px] font-semibold">4. Test a transfer</h2>
         <span className="text-[12px] text-ink-3">No funds move</span>
       </div>
       <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
-        <label className="grid gap-1 text-[12.5px] text-ink-3 sm:col-span-2">
+        <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3 sm:col-span-2">
           Recipient (name or 0x address)
           <input className="field" list="sim-parties" value={to} onChange={(e) => setTo(e.target.value)} placeholder="Jack" data-sim-to />
           <datalist id="sim-parties">
             {parties.map((p) => <option key={p} value={label(p)} />)}
           </datalist>
         </label>
-        <label className="grid gap-1 text-[12.5px] text-ink-3">
+        <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3">
           Amount (USD)
           <input className="field num" inputMode="decimal" value={amount} onChange={(e) => setAmount(e.target.value)} data-sim-amount />
         </label>
-        <label className="grid gap-1 text-[12.5px] text-ink-3">
+        <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3">
           Asset
           <select className="field" value={asset} onChange={(e) => setAsset(e.target.value)}>
             {KNOWN_ASSETS.map((a) => <option key={a}>{a}</option>)}
           </select>
         </label>
-        <label className="grid gap-1 text-[12.5px] text-ink-3">
+        <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3">
           Spending category
           <input className="field" list="sim-cats" value={category} onChange={(e) => setCategory(e.target.value)} />
           <datalist id="sim-cats">
             {categories.map((c) => <option key={c} value={c} />)}
           </datalist>
         </label>
-        <label className="grid gap-1 text-[12.5px] text-ink-3">
+        <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3">
           Balance before (USD)
           <input className="field num" inputMode="decimal" value={balance} onChange={(e) => setBalance(e.target.value)} />
         </label>
-        <label className="grid gap-1 text-[12.5px] text-ink-3">
+        <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3">
           Date
           <input className="field" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
         </label>
-        <label className="grid gap-1 text-[12.5px] text-ink-3">
+        <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3">
           Hour
           <select className="field" value={hour ?? 12} onChange={(e) => setHour(Number(e.target.value))} data-sim-hour>
             {Array.from({ length: 24 }, (_, h) => <option key={h} value={h}>{String(h).padStart(2, "0")}:00</option>)}
           </select>
         </label>
         <div className="flex flex-wrap gap-x-5 gap-y-2 pt-1 text-[13.5px] text-ink-2 sm:col-span-2">
-          <label className="flex items-center gap-2"><input type="checkbox" checked={cosigned} onChange={(e) => setCosigned(e.target.checked)} className="accent-[#4fe3b8]" /> Second approval attached</label>
-          <label className="flex items-center gap-2"><input type="checkbox" checked={paidBefore} onChange={(e) => setPaidBefore(e.target.checked)} className="accent-[#4fe3b8]" /> Paid this recipient before</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={cosigned} onChange={(e) => setCosigned(e.target.checked)} className="accent-[#0e7c6b]" /> Second approval attached</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={paidBefore} onChange={(e) => setPaidBefore(e.target.checked)} className="accent-[#0e7c6b]" /> Paid this recipient before</label>
           {hasAgent ? (
             <label className="flex items-center gap-2">
               Sent by
@@ -153,7 +153,7 @@ export function Simulator({
       {result && tx ? (
         <div className="mt-4" aria-live="polite">
           <div className={`flex flex-wrap items-center justify-between gap-2 rounded-[12px] border px-3.5 py-3 verdict-${result.verdict}`} data-verdict={result.verdict}>
-            <p className="font-display text-[22px] font-semibold tracking-[-0.02em]">{VERDICT_TEXT[result.verdict]}</p>
+            <p className="font-display text-[21px] font-bold tracking-[-0.02em]">{VERDICT_TEXT[result.verdict]}</p>
             <p className="text-[13px]">
               {txRules.length === 0
                 ? "No rules: everything passes"
@@ -199,7 +199,7 @@ export function Simulator({
       )}
 
       {ledger.length ? (
-        <div className="mt-4 border-t border-white/[0.07] pt-3">
+        <div className="mt-4 border-t border-line pt-3">
           <div className="flex items-center justify-between">
             <p className="label">Preview activity</p>
             <button type="button" onClick={clearLedger} className="text-[12px] text-ink-3 hover:text-ink">Clear</button>

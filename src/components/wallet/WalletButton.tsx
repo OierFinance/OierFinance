@@ -46,8 +46,8 @@ function Icon({ src }: { src: string | null }) {
 }
 
 const row =
-  "flex min-h-[58px] w-full items-center gap-3 rounded-[10px] border border-white/[0.08] bg-g3 px-3 py-2.5 text-left text-[15px] text-ink";
-const group = "px-0.5 pb-2 font-mono text-[10.5px] font-medium uppercase tracking-[0.1em] text-ink-3";
+  "flex min-h-[58px] w-full items-center gap-3 rounded-[8px] border border-line bg-g2 px-3 py-2.5 text-left text-[15px] text-ink";
+const group = "px-0.5 pb-2 text-[13px] font-medium text-ink-3";
 
 /**
  * The wallet list itself: detected wallets (EIP-6963) first, then
@@ -85,7 +85,7 @@ export function WalletPicker({ onConnected }: { onConnected?: () => void }) {
       {installed.length ? (
         <>
           <p className={group}>Detected in this browser</p>
-          <ul className="grid gap-1.5">
+          <ul className="grid grid-cols-1 gap-1.5">
             {installed.map((wallet) => (
               <li key={wallet.rdns}>
                 <button
@@ -100,7 +100,7 @@ export function WalletPicker({ onConnected }: { onConnected?: () => void }) {
                     <span className="block font-medium">{wallet.name}</span>
                     <span className="block text-[12.5px] text-ink-3">{wallet.unsupported ? `Not supported · ${wallet.unsupported}` : "Installed"}</span>
                   </span>
-                  {pending === wallet.rdns ? <span className="font-mono text-[11px] uppercase text-acc">Check wallet…</span> : null}
+                  {pending === wallet.rdns ? <span className="text-[12.5px] font-medium text-acc">Check wallet…</span> : null}
                 </button>
               </li>
             ))}
@@ -121,7 +121,7 @@ export function WalletPicker({ onConnected }: { onConnected?: () => void }) {
             <span className="block font-medium">WalletConnect</span>
             <span className="block text-[12.5px] text-ink-3">Scan a QR code with a mobile wallet</span>
           </span>
-          {pending === WALLETCONNECT_RDNS ? <span className="font-mono text-[11px] uppercase text-acc">Opening…</span> : null}
+          {pending === WALLETCONNECT_RDNS ? <span className="text-[12.5px] font-medium text-acc">Opening…</span> : null}
         </button>
       ) : (
         <div className={`${row} opacity-50`} data-walletconnect="off">
@@ -136,7 +136,7 @@ export function WalletPicker({ onConnected }: { onConnected?: () => void }) {
       {more.length ? (
         <>
           <p className={`${group} pt-4`}>{mobile ? "Open this site in a wallet app" : `Not installed · supports ${chain.name}`}</p>
-          <ul className="grid gap-1.5">
+          <ul className="grid grid-cols-1 gap-1.5">
             {more.map((w) => {
               const href = mobile && w.deepLink ? w.deepLink(here) : w.install;
               const label = mobile && w.deepLink ? "Open" : "Install";
@@ -145,7 +145,7 @@ export function WalletPicker({ onConnected }: { onConnected?: () => void }) {
                   <a href={href} target="_blank" rel="noreferrer" className={`${row} transition-colors hover:border-acc/60`}>
                     <Icon src={`/wallets/${w.id}.webp`} />
                     <span className="min-w-0 flex-1 font-medium">{w.name}</span>
-                    <span className="inline-flex items-center gap-1 font-mono text-[11px] uppercase text-ink-3">
+                    <span className="inline-flex items-center gap-1 text-[12.5px] font-medium text-ink-3">
                       {label} <ArrowUpRight className="size-3" />
                     </span>
                   </a>
@@ -190,16 +190,16 @@ function WalletDialog({ onClose }: { onClose: () => void }) {
   // would be clipped to the header, so it always goes to <body>.
   return createPortal(
     <div role="dialog" aria-modal="true" aria-labelledby="wallet-dialog-title" className="fixed inset-0 z-[70] flex items-end justify-center sm:items-center sm:p-4">
-      <button type="button" aria-label="Close" onClick={close} className="absolute inset-0 animate-fade cursor-default bg-black/70 backdrop-blur-sm" />
-      <div className="relative flex max-h-[92dvh] w-full max-w-[440px] animate-sheet flex-col overflow-hidden rounded-t-[18px] border border-white/[0.12] bg-g2 text-ink shadow-[0_40px_90px_-30px_rgba(0,0,0,0.9)] sm:animate-pop sm:rounded-[18px]">
-        <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
+      <button type="button" aria-label="Close" onClick={close} className="absolute inset-0 animate-fade cursor-default bg-[rgba(12,22,40,0.55)]" />
+      <div className="night relative flex max-h-[92dvh] w-full max-w-[440px] animate-sheet flex-col overflow-hidden rounded-t-[12px] border border-line bg-g1 font-sans text-ink shadow-[0_30px_80px_-30px_rgba(10,20,40,0.6)] sm:animate-pop sm:rounded-[12px]">
+        <div className="flex items-center justify-between border-b border-line px-5 py-4">
           <div className="flex items-center gap-2.5">
             <Mark size={24} />
-            <h2 id="wallet-dialog-title" className="font-display text-[22px] font-medium tracking-[-0.01em]">
+            <h2 id="wallet-dialog-title" className="font-display text-[21px] font-bold tracking-[-0.02em]">
               Connect a wallet
             </h2>
           </div>
-          <button type="button" aria-label="Close" onClick={close} className="grid size-9 place-items-center rounded-full border border-white/[0.1] text-ink-2 transition-colors hover:border-white/25 hover:text-ink">
+          <button type="button" aria-label="Close" onClick={close} className="grid size-9 place-items-center rounded-[6px] border border-line text-ink-2 transition-colors hover:border-ink-3 hover:text-ink">
             <CloseIcon />
           </button>
         </div>
@@ -209,7 +209,7 @@ function WalletDialog({ onClose }: { onClose: () => void }) {
         <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-3 pt-4">
           <WalletPicker onConnected={onClose} />
         </div>
-        <p className="border-t border-white/[0.08] px-5 py-3.5 font-mono text-[10.5px] uppercase tracking-[0.08em] text-ink-3">
+        <p className="border-t border-line px-5 py-3.5 text-[12.5px] text-ink-3">
           {chain.name} · chain id {chain.id} · added to your wallet on connect
         </p>
       </div>
@@ -281,7 +281,7 @@ function AccountMenu({ compact }: { compact: boolean }) {
 
   if (!address) return null;
   const wrongNetwork = chainId !== null && !onRobinhoodChain;
-  const item = "flex items-center gap-2.5 rounded-[8px] px-3 py-2.5 text-left text-ink-2 transition-colors hover:bg-white/[0.05] hover:text-ink";
+  const item = "flex items-center gap-2.5 rounded-[8px] px-3 py-2.5 text-left text-ink-2 transition-colors hover:bg-ink/[0.04] hover:text-ink";
 
   return (
     <div ref={root} className="flex shrink-0 items-center">
@@ -291,7 +291,7 @@ function AccountMenu({ compact }: { compact: boolean }) {
         aria-expanded={open}
         data-account-chip
         onClick={() => setOpen((value) => !value)}
-        className="flex h-9 items-center gap-2 whitespace-nowrap rounded-full border border-white/[0.14] bg-white/[0.03] px-2.5 text-ink transition-colors hover:border-white/25 sm:px-3"
+        className="flex h-9 items-center gap-2 whitespace-nowrap rounded-[6px] border border-line bg-g2 px-2.5 text-ink transition-colors hover:border-ink-3 sm:px-3"
       >
         <span className={`size-2 rounded-full ${wrongNetwork ? "bg-bad" : "bg-ok"}`} />
         <span className="font-mono text-[11.5px]">{shortAddress(address, compact ? 4 : 5, 4)}</span>
@@ -304,18 +304,18 @@ function AccountMenu({ compact }: { compact: boolean }) {
               ref={menu}
               role="menu"
               style={{ position: "fixed", top: place.top, left: place.left }}
-              className="z-[80] w-[296px] animate-fade overflow-hidden rounded-[14px] border border-white/[0.12] bg-g2 text-ink shadow-[0_30px_60px_-24px_rgba(0,0,0,0.85)]"
+              className="night z-[80] w-[296px] animate-fade overflow-hidden rounded-[10px] border border-line bg-g1 font-sans text-ink shadow-[0_24px_60px_-24px_rgba(10,20,40,0.6)]"
             >
-              <div className="border-b border-white/[0.08] px-4 py-4">
-                <p className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-ink-3">{walletName ?? "Wallet"}</p>
+              <div className="border-b border-line px-4 py-4">
+                <p className="text-[12.5px] text-ink-3">{walletName ?? "Wallet"}</p>
                 <p className="mt-1 font-mono text-[12.5px]">{shortAddress(address, 10, 8)}</p>
                 <div className="mt-3 grid grid-cols-2 gap-2">
-                  <div className="rounded-[9px] border border-white/[0.08] bg-g3 px-2.5 py-2">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-3">{chain.nativeSymbol}</p>
+                  <div className="rounded-[9px] border border-line bg-g3 px-2.5 py-2">
+                    <p className="text-[12.5px] text-ink-3">{chain.nativeSymbol}</p>
                     <p className="num mt-0.5 text-[16px]" data-balance="eth">{balance === null ? "…" : balance}</p>
                   </div>
-                  <div className="rounded-[9px] border border-white/[0.08] bg-g3 px-2.5 py-2">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-3">USDG</p>
+                  <div className="rounded-[9px] border border-line bg-g3 px-2.5 py-2">
+                    <p className="text-[12.5px] text-ink-3">USDG</p>
                     <p className="num mt-0.5 text-[16px]">{usdg === null ? "…" : usdg}</p>
                   </div>
                 </div>
@@ -325,7 +325,7 @@ function AccountMenu({ compact }: { compact: boolean }) {
                 </p>
               </div>
               {wrongNetwork ? (
-                <div className="border-b border-white/[0.08] p-2">
+                <div className="border-b border-line p-2">
                   <button type="button" role="menuitem" disabled={switching} onClick={switchNetwork} className="btn btn-sm btn-acc w-full">
                     {switching ? "Confirm in wallet…" : `Switch to ${chain.name}`}
                   </button>

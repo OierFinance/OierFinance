@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import { parseRule } from "@/lib/rules/parse";
-import { ArrowRight } from "@/components/icons";
+import { AccountPanel, DemoProvider, TryPrompt } from "@/components/demo/AccountPanel";
 
 type Case = { tag: string; title: string; body: string; say: string };
 
@@ -33,37 +31,33 @@ export function UseCases() {
   const [tag, setTag] = useState("All");
   const shown = CASES.filter((c) => tag === "All" || c.tag === tag);
   return (
-    <div>
-      <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Filter">
-        {TAGS.map((t) => (
-          <button key={t} type="button" role="tab" aria-selected={tag === t} onClick={() => setTag(t)} className={`chip ${tag === t ? "!border-acc/60 !bg-acc/10 !text-ink" : ""}`}>
-            {t}
-          </button>
-        ))}
-      </div>
-      <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {shown.map((c) => {
-          const n = CASES.indexOf(c) + 1;
-          const ok = parseRule(c.say).ok;
-          return (
-            <article key={c.title} className="card flex flex-col p-5 sm:p-6">
-              <p className="font-mono text-[12px] text-ink-3">{String(n).padStart(2, "0")} · <span className="uppercase tracking-[0.1em]">{c.tag}</span></p>
-              <h2 className="h3 mt-3">{c.title}</h2>
-              <p className="mt-2.5 text-[15px] leading-[1.6] text-ink-2">{c.body}</p>
-              <p className="mt-5 rounded-[10px] border border-white/[0.08] bg-g1 px-3 py-2.5 text-[14px] text-ink">“{c.say}”</p>
-              <div className="mt-auto pt-4">
-                {ok ? (
-                  <Link href={`/studio?rule=${encodeURIComponent(c.say)}`} className="inline-flex items-center gap-1.5 text-[14px] text-acc hover:text-acc-hi">
-                    Try it in the studio <ArrowRight className="size-4" />
-                  </Link>
-                ) : (
-                  <span className="font-mono text-[11.5px] uppercase tracking-[0.08em] text-ink-3">Planned · not in the preview grammar yet</span>
-                )}
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </div>
+    <DemoProvider>
+      <section className="wrap py-[var(--section)]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:gap-12">
+          <div className="min-w-0">
+            <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Filter by situation">
+              {TAGS.map((t) => (
+                <button key={t} type="button" role="tab" aria-selected={tag === t} onClick={() => setTag(t)} className={`rounded-[5px] border px-3 py-1.5 text-[14px] transition-colors ${tag === t ? "border-ink bg-ink text-g2" : "border-line bg-g2 text-ink-2 hover:border-ink-3"}`}>
+                  {t}
+                </button>
+              ))}
+            </div>
+            <div className="mt-6 grid gap-3">
+              {shown.map((c) => (
+                <article key={c.title} className="rounded-[10px] border border-line bg-g2 px-6 py-6">
+                  <p className="kicker">{c.tag}</p>
+                  <h2 className="h3 mt-2">{c.title}</h2>
+                  <p className="copy mt-2 !text-[16px]">{c.body}</p>
+                  <div className="mt-4"><TryPrompt text={c.say} /></div>
+                </article>
+              ))}
+            </div>
+          </div>
+          <div className="order-first lg:order-none">
+            <AccountPanel />
+          </div>
+        </div>
+      </section>
+    </DemoProvider>
   );
 }

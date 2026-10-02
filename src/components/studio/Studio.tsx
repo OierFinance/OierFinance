@@ -22,7 +22,7 @@ const EXAMPLES: { group: string; items: string[] }[] = [
 ];
 
 function FindingRow({ f }: { f: Finding }) {
-  const tone = f.level === "error" ? "verdict-deny" : f.level === "warn" ? "verdict-hold" : "border-white/[0.1] bg-white/[0.02] text-ink-2";
+  const tone = f.level === "error" ? "verdict-deny" : f.level === "warn" ? "verdict-hold" : "border-line bg-ink/[0.04] text-ink-2";
   const Icon = f.level === "error" ? AlertIcon : f.level === "warn" ? AlertIcon : f.title === "Consistent" ? CheckIcon : InfoIcon;
   return (
     <li className={`flex gap-2.5 rounded-[10px] border px-3 py-2.5 ${tone}`} data-finding={f.level}>
@@ -53,7 +53,7 @@ function RuleCard({ rule, set, onRemove }: { rule: Rule; set: RuleSet; onRemove:
             {pending ? <span className="chip !min-h-6 !py-0.5 !text-[11.5px] !text-hold">removal pending</span> : null}
           </div>
         </div>
-        <button type="button" onClick={onRemove} aria-label={`Remove ${rule.id}`} title={`Request removal of ${rule.id}`} className="grid size-8 shrink-0 place-items-center rounded-full border border-white/[0.1] text-ink-3 transition-colors hover:border-bad/50 hover:text-bad">
+        <button type="button" onClick={onRemove} aria-label={`Remove ${rule.id}`} title={`Request removal of ${rule.id}`} className="grid size-8 shrink-0 place-items-center rounded-full border border-line text-ink-3 transition-colors hover:border-bad/50 hover:text-bad">
           <CloseIcon className="size-3.5" />
         </button>
       </div>
@@ -198,15 +198,14 @@ export function Studio() {
   const showMigrate = address && set.rules.length === 0 && guestCount > 0;
 
   return (
-    <div className="wrap pb-20 pt-8 sm:pt-12">
+    <div className="wrap pb-24 pt-12 font-sans sm:pt-16">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-[640px]">
-          <p className="tag">Rule Studio · preview</p>
-          <h1 className="h2 mt-4">Say it once. It holds on every transfer.</h1>
-          <p className="lead mt-4">Write a rule in plain English. It is drafted into logic, checked against every rule you already have, and only then applied. Try transfers against the set before anything is real.</p>
+          <h1 className="h1">Rule Studio</h1>
+          <p className="lead mt-5">Write a rule in plain English. It is drafted into logic, checked against every rule you already have, and only then applied. Try transfers against the set before anything is real.</p>
         </div>
-        <div className="card flex min-w-0 flex-col gap-1.5 p-4 text-[13px] lg:w-[360px]" data-store-owner>
-          <p className="label">Stored for</p>
+        <div className="card flex min-w-0 flex-col gap-1.5 p-4 text-[14px] lg:w-[360px]" data-store-owner>
+          <p className="label">Rules stored for</p>
           {address ? (
             <p className="truncate font-mono text-[13px] text-ink">{shortAddress(address, 8, 6)}</p>
           ) : (
@@ -218,7 +217,7 @@ export function Studio() {
             </div>
           )}
           <p className="text-ink-3">
-            {CHAIN.name} · block <span className="num text-ink-2" data-block>{block === null ? "…" : `#${block.toLocaleString("en-US")}`}</span>
+            {CHAIN.name}, block <span className="num text-ink-2" data-block>{block === null ? "…" : `#${block.toLocaleString("en-US")}`}</span>
           </p>
         </div>
       </div>
@@ -236,7 +235,7 @@ export function Studio() {
         {/* Left: write, draft, check */}
         <section className="min-w-0" aria-labelledby="write-title">
           <div className="card-hi p-4 sm:p-5">
-            <h2 id="write-title" className="label">1 · Write a rule</h2>
+            <h2 id="write-title" className="text-[15px] font-semibold">1. Write a rule</h2>
             <form
               className="mt-3"
               onSubmit={(e) => {
@@ -260,7 +259,7 @@ export function Studio() {
                 data-rule-input
               />
               <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-                <p className="text-[12.5px] text-ink-3">Drafter: {activeDrafter.name} · no key, same answer every time</p>
+                <p className="text-[12.5px] text-ink-3">Drafter: {activeDrafter.name}. No key needed, same answer every time.</p>
                 <button type="submit" className="btn btn-sm btn-acc" disabled={!text.trim()} data-draft>
                   Draft and check
                 </button>
@@ -269,7 +268,7 @@ export function Studio() {
             <div className="mt-5 grid gap-3">
               {EXAMPLES.map((g) => (
                 <div key={g.group}>
-                  <p className="label !text-[10.5px]">{g.group}</p>
+                  <p className="label">{g.group}</p>
                   <div className="mt-1.5 flex flex-wrap gap-1.5">
                     {g.items.map((s) => (
                       <button key={s} type="button" className="chip" onClick={() => { setText(s); void runDraft(s); }}>
@@ -283,7 +282,7 @@ export function Studio() {
           </div>
 
           <div id="draft-panel" className="card mt-4 p-4 sm:p-5" aria-live="polite">
-            <h2 className="label">2 · Draft and consistency check</h2>
+            <h2 className="text-[15px] font-semibold">2. Draft and check</h2>
             {error ? (
               <div className="mt-3" data-parse-error>
                 <p className="flex gap-2 text-[14px] text-bad"><AlertIcon className="mt-0.5 size-4 shrink-0" />{error.message}</p>
@@ -298,8 +297,8 @@ export function Studio() {
             ) : draft ? (
               <div className="mt-3" data-draft-open>
                 <p className="text-[16px] font-medium leading-[1.4]">{ruleEnglish(draft)}</p>
-                <div className="mt-3 rounded-[10px] border border-white/[0.08] bg-g1 px-3 py-2.5">
-                  <p className="label !text-[10px]">As logic</p>
+                <div className="mt-3 rounded-[10px] border border-line bg-g1 px-3 py-2.5">
+                  <p className="label">As logic</p>
                   <p className="formula mt-1" data-draft-formula>{draft.type === "tx" ? `R${set.next}(tx) ≡ ${ruleFormula(draft)}` : ruleFormula(draft)}</p>
                 </div>
                 <ul className="mt-3 grid gap-2">{findings.map((f, i) => <FindingRow key={i} f={f} />)}</ul>
@@ -322,12 +321,12 @@ export function Studio() {
         <section className="min-w-0" aria-labelledby="set-title">
           <div className="card p-4 sm:p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 id="set-title" className="label">3 · Your rule set ({set.rules.length})</h2>
+              <h2 id="set-title" className="text-[15px] font-semibold">3. Your rule set ({set.rules.length})</h2>
               <span className={`chip !min-h-6 !text-[11.5px] ${set.rules.length === 0 ? "" : committed ? "!text-ok" : "!text-hold"}`} data-commit-state>
                 {set.rules.length === 0 ? "empty" : committed ? "signed" : "unsigned changes"}
               </span>
             </div>
-            <p className="formula mt-3 rounded-[10px] border border-white/[0.08] bg-g1 px-3 py-2.5" data-set-formula>{setFormula(set)}</p>
+            <p className="formula mt-3 rounded-[10px] border border-line bg-g1 px-3 py-2.5" data-set-formula>{setFormula(set)}</p>
             {set.rules.length ? (
               <ul className="mt-3 grid gap-2">
                 {set.rules.map((r) => <RuleCard key={r.id} rule={r} set={set} onRemove={() => requestRemoval(r.id)} />)}
@@ -357,7 +356,7 @@ export function Studio() {
                 <p className="mt-2 text-[12px] text-ink-3">Co-signer approvals are collected from their own wallets once accounts open. In the preview the rule stays in force.</p>
               </div>
             ) : null}
-            <div className="mt-4 flex flex-col gap-2 border-t border-white/[0.07] pt-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-4 flex flex-col gap-2 border-t border-line pt-4 sm:flex-row sm:items-center sm:justify-between">
               <p className="min-w-0 text-[12.5px] text-ink-3">
                 SHA-256 <span className="font-mono text-ink-2">{hash ? `${hash.slice(0, 10)}…${hash.slice(-6)}` : "…"}</span>
                 {store.commit ? <> · last signed {new Date(store.commit.at).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}</> : null}
@@ -372,7 +371,7 @@ export function Studio() {
           <Simulator set={set} parties={parties} ledger={store.ledger} record={store.record} clearLedger={store.clearLedger} />
 
           <div className="card mt-4 p-4 sm:p-5">
-            <h2 className="label">Address book</h2>
+            <h2 className="text-[15px] font-semibold">Address book</h2>
             <p className="mt-2 text-[13px] text-ink-3">Names in rules work without addresses. Add one to resolve pasted addresses to a name, or to fill “addresses I’ve approved”.</p>
             <form className="mt-3 grid gap-2 sm:grid-cols-[1fr_1.4fr_auto]" onSubmit={(e) => { e.preventDefault(); addContact(); }}>
               <input className="field" placeholder="Name, e.g. Jack" value={contactName} onChange={(e) => setContactName(e.target.value)} aria-label="Contact name" />

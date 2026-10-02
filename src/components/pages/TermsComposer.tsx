@@ -86,65 +86,63 @@ export function TermsComposer() {
   }
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" data-composer>
-      <div className="card p-5 sm:p-6">
-        <p className="label">Compose terms</p>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <label className="grid gap-1 text-[12.5px] text-ink-3">Send to<input className="field" value={to} onChange={(e) => setTo(e.target.value)} /></label>
-          <label className="grid gap-1 text-[12.5px] text-ink-3">Amount ({BRAND.symbol})<input className="field num" inputMode="decimal" value={amount} onChange={(e) => setAmount(e.target.value)} /></label>
-          <label className="grid gap-1 text-[12.5px] text-ink-3">Spend at most<input className="field num" inputMode="decimal" value={rate} onChange={(e) => setRate(e.target.value)} placeholder="no limit" /></label>
-          <label className="grid gap-1 text-[12.5px] text-ink-3">per
-            <select className="field" value={period} onChange={(e) => setPeriod(e.target.value as Period)}>
-              <option value="day">day</option><option value="week">week</option><option value="month">month</option>
-            </select>
-          </label>
-          <label className="grid gap-1 text-[12.5px] text-ink-3">Only on (comma separated)<input className="field" value={allowed} onChange={(e) => setAllowed(e.target.value)} placeholder="anything" /></label>
-          <label className="grid gap-1 text-[12.5px] text-ink-3">Never on<input className="field" value={blocked} onChange={(e) => setBlocked(e.target.value)} placeholder="nothing blocked" /></label>
-          <label className="grid gap-1 text-[12.5px] text-ink-3">Unspent returns after (days)<input className="field num" inputMode="numeric" value={returnDays} onChange={(e) => setReturnDays(e.target.value)} placeholder="never" /></label>
-          <label className="grid gap-1 text-[12.5px] text-ink-3">Stops existing after (days)<input className="field num" inputMode="numeric" value={expiryDays} onChange={(e) => setExpiryDays(e.target.value)} placeholder="never" /></label>
-          <fieldset className="grid gap-1.5 text-[13.5px] text-ink-2 sm:col-span-2">
-            <legend className="text-[12.5px] text-ink-3">When the recipient pays someone else</legend>
-            <label className="flex items-center gap-2"><input type="radio" name="hops" checked={hops === "one"} onChange={() => setHops("one")} className="accent-[#4fe3b8]" /> Terms end; the shop receives ordinary funds</label>
-            <label className="flex items-center gap-2"><input type="radio" name="hops" checked={hops === "travel"} onChange={() => setHops("travel")} className="accent-[#4fe3b8]" /> Terms travel on with the money</label>
-          </fieldset>
-        </div>
+    <section className="min-w-0 overflow-hidden rounded-[12px] border border-line bg-g2 font-sans shadow-[0_18px_50px_-30px_rgba(18,32,58,0.45)] lg:sticky lg:top-[84px] lg:max-h-[calc(100vh-104px)] lg:overflow-y-auto" aria-label="Program a payment" data-composer>
+      <header className="border-b border-line bg-g1 px-4 py-3">
+        <p className="text-[15px] font-semibold">Program a payment</p>
+        <p className="text-[12.5px] text-ink-3">Terms are drafted and signed here; transfers with terms arrive with the token.</p>
+      </header>
+      <div className="grid grid-cols-1 gap-3 px-4 py-4 sm:grid-cols-2">
+        <label className="grid grid-cols-1 gap-1 text-[13px] text-ink-3">Send to<input className="field" value={to} onChange={(e) => setTo(e.target.value)} /></label>
+        <label className="grid grid-cols-1 gap-1 text-[13px] text-ink-3">Amount in {BRAND.symbol}<input className="field num" inputMode="decimal" value={amount} onChange={(e) => setAmount(e.target.value)} /></label>
+        <label className="grid grid-cols-1 gap-1 text-[13px] text-ink-3">Spend at most<input className="field num" inputMode="decimal" value={rate} onChange={(e) => setRate(e.target.value)} placeholder="no limit" /></label>
+        <label className="grid grid-cols-1 gap-1 text-[13px] text-ink-3">per
+          <select className="field" value={period} onChange={(e) => setPeriod(e.target.value as Period)}>
+            <option value="day">day</option><option value="week">week</option><option value="month">month</option>
+          </select>
+        </label>
+        <label className="grid grid-cols-1 gap-1 text-[13px] text-ink-3">Only on<input className="field" value={allowed} onChange={(e) => setAllowed(e.target.value)} placeholder="anything" /></label>
+        <label className="grid grid-cols-1 gap-1 text-[13px] text-ink-3">Never on<input className="field" value={blocked} onChange={(e) => setBlocked(e.target.value)} placeholder="nothing blocked" /></label>
+        <label className="grid grid-cols-1 gap-1 text-[13px] text-ink-3">Unspent returns after (days)<input className="field num" inputMode="numeric" value={returnDays} onChange={(e) => setReturnDays(e.target.value)} placeholder="never" /></label>
+        <label className="grid grid-cols-1 gap-1 text-[13px] text-ink-3">Stops existing after (days)<input className="field num" inputMode="numeric" value={expiryDays} onChange={(e) => setExpiryDays(e.target.value)} placeholder="never" /></label>
+        <fieldset className="grid grid-cols-1 gap-1.5 text-[14px] text-ink-2 sm:col-span-2">
+          <legend className="text-[13px] text-ink-3">When the recipient pays someone else</legend>
+          <label className="flex items-center gap-2"><input type="radio" name="hops" checked={hops === "one"} onChange={() => setHops("one")} className="accent-[#0e7c6b]" /> The terms end with them</label>
+          <label className="flex items-center gap-2"><input type="radio" name="hops" checked={hops === "travel"} onChange={() => setHops("travel")} className="accent-[#0e7c6b]" /> The terms travel on with the money</label>
+        </fieldset>
       </div>
 
-      <div className="grid min-w-0 gap-4">
-        <div className="card-hi p-5 sm:p-6">
-          <p className="label">The payment, as terms</p>
-          <p className="mt-3 text-[16px] leading-[1.5]">
-            {money(total).replace("$", "")} {BRAND.symbol} to {to || "…"}
-            {clauses.length ? ". " + clauses.map(clauseEnglish).join(". ") : ""}
-            {back ? `. Unspent funds return after ${back} days` : ""}.
-          </p>
-          <div className="mt-3 rounded-[10px] border border-white/[0.08] bg-g1 px-3 py-2.5">
-            {formula.map((f) => <p key={f} className="formula">{f}</p>)}
-          </div>
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            <button type="button" className="btn btn-sm btn-acc" onClick={sign} data-sign-terms>{address ? "Sign terms (no gas)" : "Connect to sign"}</button>
-            <span className="text-[12.5px] text-ink-3">{sig ? `Signed · ${sig.slice(0, 12)}…` : "A signature over the terms, not a transfer."}</span>
-          </div>
-          {err ? <p className="mt-2 text-[12.5px] text-bad">{err}</p> : null}
+      <div className="border-t border-line px-4 py-4">
+        <p className="font-serif text-[17px] leading-[1.5]">
+          {money(total).replace("$", "")} {BRAND.symbol} to {to || "…"}
+          {clauses.length ? ". " + clauses.map(clauseEnglish).join(". ") : ""}
+          {back ? `. Unspent funds return after ${back} days` : ""}.
+        </p>
+        <div className="mt-3 rounded-[6px] bg-g3 px-3 py-2">
+          {formula.map((f) => <p key={f} className="formula">{f}</p>)}
         </div>
-
-        <div className="card p-5 sm:p-6">
-          <p className="label">The recipient tries to spend</p>
-          <div className="mt-3 grid gap-2.5 sm:grid-cols-3">
-            <label className="grid gap-1 text-[12.5px] text-ink-3">Amount<input className="field num" value={spend} onChange={(e) => setSpend(e.target.value)} inputMode="decimal" /></label>
-            <label className="grid gap-1 text-[12.5px] text-ink-3">On<input className="field" value={spendCat} onChange={(e) => setSpendCat(e.target.value)} /></label>
-            <label className="grid gap-1 text-[12.5px] text-ink-3">Day after receipt<input className="field num" value={spendDay} onChange={(e) => setSpendDay(e.target.value)} inputMode="numeric" /></label>
-          </div>
-          <div className={`mt-3 rounded-[10px] border px-3 py-2.5 text-[14px] verdict-${returned ? "deny" : ev.verdict}`} data-terms-verdict>
-            {returned
-              ? `Day ${spendDay}: the unspent balance has already gone back to the sender.`
-              : ev.verdict === "allow"
-                ? `Spends. ${ev.checks.map((c) => c.reason).join("; ") || "No terms limit this."}`
-                : `Refused: ${ev.checks.filter((c) => !c.pass).map((c) => c.reason).join("; ")}.`}
-          </div>
-          <p className="mt-2 text-[12px] text-ink-3">Preview evaluated in your browser{now ? ` · reference date ${dateText(now)}` : ""}. Transfers with terms arrive with the token release.</p>
+        <div className="mt-3 flex flex-wrap items-center gap-3">
+          <button type="button" className="btn btn-sm btn-acc" onClick={sign} data-sign-terms>{address ? "Sign the terms" : "Connect to sign"}</button>
+          <span className="text-[13px] text-ink-3">{sig ? `Signed ${sig.slice(0, 12)}…` : "A signature over the terms. No transfer, no gas."}</span>
         </div>
+        {err ? <p className="mt-2 text-[13px] text-bad">{err}</p> : null}
       </div>
-    </div>
+
+      <div className="border-t border-line bg-g1 px-4 py-4">
+        <p className="text-[13px] font-semibold text-ink-2">Now be the recipient and try to spend it</p>
+        <div className="mt-2 grid grid-cols-3 gap-2">
+          <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3">Amount<input className="field num !h-9" value={spend} onChange={(e) => setSpend(e.target.value)} inputMode="decimal" /></label>
+          <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3">On<input className="field !h-9" value={spendCat} onChange={(e) => setSpendCat(e.target.value)} /></label>
+          <label className="grid grid-cols-1 gap-1 text-[12.5px] text-ink-3">Day<input className="field num !h-9" value={spendDay} onChange={(e) => setSpendDay(e.target.value)} inputMode="numeric" /></label>
+        </div>
+        <p className={`mt-2 rounded-[6px] border px-3 py-2 text-[14px] verdict-${returned ? "deny" : ev.verdict}`} data-terms-verdict>
+          {returned
+            ? `Day ${spendDay}: the unspent balance has already gone back to the sender.`
+            : ev.verdict === "allow"
+              ? `Spends. ${ev.checks.map((c) => c.reason).join("; ") || "No terms limit this."}`
+              : `Refused: ${ev.checks.filter((c) => !c.pass).map((c) => c.reason).join("; ")}.`}
+        </p>
+        <p className="mt-2 text-[12.5px] text-ink-3">Checked in your browser{now ? `, counting from ${dateText(now)}` : ""}.</p>
+      </div>
+    </section>
   );
 }

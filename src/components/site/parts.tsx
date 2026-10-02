@@ -1,82 +1,72 @@
 import Link from "next/link";
-import { parseRule } from "@/lib/rules/parse";
-import { ArrowRight } from "@/components/icons";
+import { AccountPanel, DemoProvider, TryPrompt } from "@/components/demo/AccountPanel";
 
-export function PageHero({ tag, title, lead, children }: { tag: string; title: React.ReactNode; lead?: React.ReactNode; children?: React.ReactNode }) {
+/** Dark opening band used at the top of every long page. */
+export function NightHero({ title, lead, sub, actions, aside }: { title: React.ReactNode; lead?: React.ReactNode; sub?: React.ReactNode; actions?: React.ReactNode; aside?: React.ReactNode }) {
   return (
-    <section className="relative overflow-hidden border-b border-white/[0.06]">
-      <div aria-hidden className="dots absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent)]" />
-      <div className="wrap relative pb-16 pt-14 sm:pb-20 sm:pt-20">
-        <p className="tag">{tag}</p>
-        <h1 className="h1 mt-5 max-w-[900px]">{title}</h1>
-        {lead ? <p className="lead mt-6 max-w-[680px]">{lead}</p> : null}
-        {children ? <div className="mt-8 flex flex-wrap gap-3">{children}</div> : null}
+    <section className="night night-bg">
+      <div className={`wrap grid grid-cols-1 gap-12 pb-16 pt-16 sm:pb-24 sm:pt-24 ${aside ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:items-center" : ""}`}>
+        <div className="max-w-[640px]">
+          <h1 className="display">{title}</h1>
+          {lead ? <p className="mt-7 max-w-[520px] font-sans text-[19px] leading-[1.5] text-ink">{lead}</p> : null}
+          {sub ? <p className="mt-4 max-w-[520px] font-serif text-[17px] leading-[1.6] text-ink-2">{sub}</p> : null}
+          {actions ? <div className="mt-9 flex flex-wrap gap-3">{actions}</div> : null}
+        </div>
+        {aside ? <div className="min-w-0">{aside}</div> : null}
       </div>
     </section>
   );
 }
 
-export function SectionHead({ tag, title, lead, id }: { tag: string; title: React.ReactNode; lead?: React.ReactNode; id?: string }) {
-  return (
-    <div id={id} className="max-w-[760px]">
-      <p className="tag">{tag}</p>
-      <h2 className="h2 mt-4">{title}</h2>
-      {lead ? <p className="lead mt-4">{lead}</p> : null}
-    </div>
-  );
-}
+export type Story = { id?: string; kicker: string; title: string; body: React.ReactNode; prompts?: string[]; dark?: boolean; extra?: React.ReactNode };
 
-/** A sample sentence. Opens it in the Rule Studio when the drafter can read it; otherwise marked as planned. */
-export function Prompt({ text }: { text: string }) {
-  const readable = parseRule(text).ok;
-  if (!readable)
-    return (
-      <span className="chip cursor-default opacity-80" title="Not in the preview grammar yet">
-        {text} <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-ink-3">planned</span>
-      </span>
-    );
+/** One chapter of a long page: a short heading, a paragraph, and sentences to run. */
+export function StoryBlock({ s }: { s: Story }) {
   return (
-    <Link href={`/studio?rule=${encodeURIComponent(text)}`} className="chip">
-      <span className="size-1.5 shrink-0 rounded-full bg-acc" />
-      {text}
-    </Link>
-  );
-}
-
-export function NumberedCard({ n, kicker, title, body, prompts, status }: { n: string; kicker: string; title: string; body: string; prompts?: string[]; status?: "planned" | "preview" }) {
-  return (
-    <article className="card flex flex-col p-5 sm:p-6">
-      <div className="flex items-center justify-between gap-3">
-        <p className="font-mono text-[12px] text-ink-3">
-          {n} · <span className="uppercase tracking-[0.1em]">{kicker}</span>
-        </p>
-        {status ? <span className={`chip !min-h-6 !py-0 !text-[11px] ${status === "preview" ? "!text-acc" : ""}`}>{status === "preview" ? "in preview" : "planned"}</span> : null}
-      </div>
-      <h3 className="h3 mt-4">{title}</h3>
-      <p className="mt-3 text-[15px] leading-[1.6] text-ink-2">{body}</p>
-      {prompts?.length ? (
-        <div className="mt-auto flex flex-wrap gap-1.5 pt-5">
-          {prompts.map((p) => <Prompt key={p} text={p} />)}
+    <article id={s.id} className={`scroll-mt-[84px] rounded-[10px] border px-6 py-7 sm:px-8 sm:py-9 ${s.dark ? "night night-bg border-transparent" : "border-line bg-g2"}`}>
+      <p className="kicker">{s.kicker}</p>
+      <h2 className="h2 mt-3 max-w-[15em]">{s.title}</h2>
+      <div className="copy mt-4 max-w-[34em]">{s.body}</div>
+      {s.prompts?.length ? (
+        <div className="mt-6 flex flex-col items-start gap-2">
+          {s.prompts.map((p) => <TryPrompt key={p} text={p} />)}
         </div>
       ) : null}
+      {s.extra}
     </article>
   );
 }
 
-export function CtaBand({ title = "Get a seat before accounts open", body = "Early accounts open in small groups. Join the list and write your first rule in the studio while you wait." }: { title?: string; body?: string }) {
+/** Long chapters on the left, the live account panel held on the right. */
+export function StoryWithPanel({ stories, heading, intro }: { stories: Story[]; heading?: string; intro?: React.ReactNode }) {
   return (
-    <section className="wrap section">
-      <div className="card-hi relative overflow-hidden p-7 sm:p-12">
-        <div aria-hidden className="dots absolute inset-0 opacity-60" />
-        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-[620px]">
-            <h2 className="h2">{title}</h2>
-            <p className="lead mt-4">{body}</p>
+    <DemoProvider>
+      <section className="wrap py-[var(--section)]">
+        {intro}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:gap-12">
+          <div className="grid grid-cols-1 gap-4">
+            {stories.map((s) => <StoryBlock key={s.title} s={s} />)}
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/waitlist" className="btn btn-acc">Join early access <ArrowRight className="size-4" /></Link>
-            <Link href="/studio" className="btn btn-ghost">Open Rule Studio</Link>
+          <div className="order-first lg:order-none">
+            <AccountPanel heading={heading} />
           </div>
+        </div>
+      </section>
+    </DemoProvider>
+  );
+}
+
+export function CtaBand({ title = "Be among the first to set a rule", body = "Early accounts open in small groups, so each one comes with a real conversation about the rules you need." }: { title?: string; body?: string }) {
+  return (
+    <section className="wrap pb-[var(--section)]">
+      <div className="grid grid-cols-1 gap-6 border-t border-ink pt-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+        <div className="max-w-[640px]">
+          <h2 className="h2">{title}</h2>
+          <p className="copy mt-4">{body}</p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Link href="/waitlist" className="btn btn-acc">Join the waitlist</Link>
+          <Link href="/studio" className="btn btn-ghost">Write a rule now</Link>
         </div>
       </div>
     </section>

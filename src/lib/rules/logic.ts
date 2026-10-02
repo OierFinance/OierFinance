@@ -41,7 +41,7 @@ export function clauseFormula(c: Clause): string {
     case "maxTx":
       return `amount ≤ ${c.amount}`;
     case "maxPeriod":
-      return `spent₍${PERIOD_WORD[c.period]}₎ + amount ≤ ${c.amount}`;
+      return `spent(${PERIOD_WORD[c.period]}) + amount ≤ ${c.amount}`;
     case "cosignAbove":
       return `amount > ${c.amount} → cosigned`;
     case "quietHours":
