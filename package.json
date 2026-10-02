@@ -1,0 +1,29 @@
+{
+  "name": "oier",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 4790",
+    "build": "next build",
+    "start": "next start -p 4790",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test:rules": "node --experimental-strip-types scripts/rules-check.ts"
+  },
+  "dependencies": {
+    "@walletconnect/ethereum-provider": "^2.25.0",
+    "next": "16.3.5",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
