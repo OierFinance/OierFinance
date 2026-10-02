@@ -395,7 +395,7 @@ export function Studio() {
       </div>
 
       <p className="mt-10 max-w-[760px] text-[13px] leading-[1.6] text-ink-3">
-        Preview: rules are drafted, checked and simulated in your browser and stored on this device under your address. Signing records the set; it does not move funds or deploy anything. Enforcement by an on-chain account on {CHAIN.name} is the next release. Try: {HINTS[10]}.
+        Preview: rules are drafted, checked and simulated in your browser and stored on this device under your address. Signing records the set; it moves no funds. To have {CHAIN.name} enforce the rules, push them to your account from the <a href="/account/rules" className="text-acc underline underline-offset-2">Account rules page</a>. Try: {HINTS[10]}.
       </p>
     </div>
   );

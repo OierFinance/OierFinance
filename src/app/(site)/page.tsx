@@ -103,7 +103,7 @@ export default function Home() {
             <div className="mb-12 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:gap-12">
               <h2 className="h1 max-w-[12em]">Plain sentences in, enforced rules out</h2>
               <p className="copy self-end">
-                Every section below ends with sample instructions. Click one and the account panel drafts it, shows the resulting logic, and tests it against the rules you already have. No money moves on this site.
+                Every section below ends with sample instructions. Click one and the account panel drafts it, shows the resulting logic, and tests it against the rules you already have. The panel only drafts; real enforcement happens in your account contract.
               </p>
             </div>
           }

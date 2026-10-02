@@ -203,7 +203,7 @@ export default function TechnologyPage() {
             <ul className="mt-4 grid gap-3 font-serif text-[16.5px] leading-[1.6] text-ink-2">
               <li>The approach draws on published work in decidable logic and boolean algebra, including specifications that can describe how they may be changed.</li>
               <li>The preview understands a fixed set of phrasings. A sentence it cannot fully read is rejected outright, never applied in part.</li>
-              <li>Spending windows use the activity you record in the preview on this device. Enforcement against real keys comes with the on-chain account.</li>
+              <li>On-chain, 24-hour caps are counted in hourly buckets and 7-day caps in daily buckets, so a window can start up to an hour (or a day) earlier than the exact moment.</li>
               <li>Richer conditions over time, like “until” or “since”, are still being researched.</li>
             </ul>
           </div>

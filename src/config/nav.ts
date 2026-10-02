@@ -1,5 +1,6 @@
 export const SITE_NAV = [
   { href: "/studio", label: "Rule Studio" },
+  { href: "/account", label: "Account" },
   { href: "/token", label: "Token" },
   { href: "/build", label: "Build" },
   { href: "/commerce", label: "Commerce" },
@@ -12,6 +13,7 @@ export const FOOTER_NAV = [
     title: "Product",
     links: [
       { href: "/studio", label: "Rule Studio" },
+      { href: "/account", label: "Account" },
       { href: "/use-cases", label: "Use cases" },
       { href: "/commerce", label: "Commerce" },
       { href: "/build", label: "Build" },

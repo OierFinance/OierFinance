@@ -8,3 +8,5 @@ build
 .DS_Store
 .vercel
 npm-debug.log*
+contracts/out
+contracts/cache

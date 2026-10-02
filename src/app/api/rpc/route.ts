@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
  * public RPC host, so the browser reads through this server instead. Only
  * read methods pass; transactions always go through the user's own wallet.
  */
-const ALLOWED = new Set(["eth_call", "eth_getTransactionReceipt", "eth_blockNumber", "eth_getLogs", "eth_getBalance", "eth_chainId"]);
+const ALLOWED = new Set(["eth_call", "eth_getTransactionReceipt", "eth_blockNumber", "eth_getLogs", "eth_getBalance", "eth_chainId", "eth_getCode", "eth_getBlockByNumber"]);
 const MAX_CALLS = 20;
 const MAX_LOG_SPAN = 20_000;
 
@@ -35,7 +35,12 @@ export async function POST(request: Request) {
   }
   try {
     const results = await batch(calls.map((c) => ({ method: c.method, params: c.params ?? [] })));
-    const out = calls.map((c, i) => ({ jsonrpc: "2.0", id: c.id ?? i, result: results[i] }));
+    const out = calls.map((c, i) => {
+      const r = results[i] as { __rpcError?: { code?: number; message?: string; data?: unknown } } | null;
+      return r && typeof r === "object" && "__rpcError" in r
+        ? { jsonrpc: "2.0", id: c.id ?? i, error: r.__rpcError }
+        : { jsonrpc: "2.0", id: c.id ?? i, result: results[i] };
+    });
     return NextResponse.json(Array.isArray(body) ? out : out[0], { headers: { "cache-control": "no-store" } });
   } catch {
     return NextResponse.json({ error: "The chain could not be reached." }, { status: 502 });

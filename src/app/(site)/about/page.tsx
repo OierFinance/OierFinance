@@ -16,8 +16,8 @@ const PRINCIPLES = [
 ];
 
 const ROADMAP = [
-  ["Now", "Rule Studio preview", `Plain-English rules, the logic view, the consistency check, a transfer simulator and signed rule sets, with wallet sign-in on ${CHAIN.name}.`],
-  ["Next", `A rule account on ${CHAIN.name}`, "A smart account that evaluates your committed rules on every transfer: recipient lists, caps, approvals, delays and recovery."],
+  ["Now", `Rule Studio and the account contract on ${CHAIN.name}`, "Plain-English rules with a consistency check, pushed to a contract account that enforces payee lists, caps, co-signers, delays with recall, guarded rule changes and guardian recovery. Unaudited."],
+  ["Next", "Audit and agent budgets", "An independent review of the contracts, then session keys that let an agent spend inside its own limits."],
   ["Then", `${BRAND.symbol} with terms`, "Payments that carry a spend rate, allowed uses, a return date and an expiry, enforced on the receiving side."],
   ["Later", "Agents and builders", "Agent accounts with budgets, installable rule templates and community governance of the rulebook."],
 ];

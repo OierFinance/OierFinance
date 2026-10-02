@@ -43,7 +43,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-line">
         <div className="wrap flex flex-col gap-2 py-6 text-[13px] text-ink-3 sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} {BRAND.name}. Preview site; no live accounts or funds.</p>
+          <p>© {new Date().getFullYear()} {BRAND.name}. Account contracts are unaudited; use small amounts.</p>
           <p>{BRAND.slogan}</p>
         </div>
       </div>

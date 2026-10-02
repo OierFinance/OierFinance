@@ -26,11 +26,11 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-line bg-g2/95 backdrop-blur-sm">
       <div className="wrap flex h-[60px] items-center gap-3">
         <Lockup compact />
-        <nav aria-label="Primary" className="ml-6 hidden items-center gap-5 lg:flex xl:ml-10 xl:gap-6">
+        <nav aria-label="Primary" className="ml-8 hidden items-center gap-5 xl:flex">
           {SITE_NAV.map((item) => {
             const active = pathname.startsWith(item.href);
             return (
-              <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={`text-[14.5px] transition-colors hover:text-ink ${active ? "font-semibold text-ink" : "text-ink-2"}`}>
+              <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={`whitespace-nowrap text-[14.5px] transition-colors hover:text-ink ${active ? "font-semibold text-ink" : "text-ink-2"}`}>
                 {item.label}
               </Link>
             );
@@ -38,7 +38,7 @@ export function SiteHeader() {
         </nav>
         <div className="ml-auto flex min-w-0 items-center gap-2">
           <NavCaPill />
-          <Link href="/waitlist" className="btn btn-sm btn-ghost hidden xl:inline-flex">
+          <Link href="/waitlist" className="btn btn-sm btn-ghost hidden 2xl:inline-flex">
             Early access
           </Link>
           <span className="hidden sm:inline-flex">
@@ -47,7 +47,7 @@ export function SiteHeader() {
           <span className="inline-flex sm:hidden">
             <NavWallet compact />
           </span>
-          <button type="button" aria-label="Open menu" onClick={() => setMenu(true)} className="grid size-9 shrink-0 place-items-center rounded-[6px] border border-line text-ink lg:hidden">
+          <button type="button" aria-label="Open menu" onClick={() => setMenu(true)} className="grid size-9 shrink-0 place-items-center rounded-[6px] border border-line text-ink xl:hidden">
             <MenuIcon />
           </button>
         </div>
@@ -55,7 +55,7 @@ export function SiteHeader() {
 
       {menu
         ? createPortal(
-            <div className="fixed inset-0 z-[60] flex flex-col bg-g2 lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+            <div className="fixed inset-0 z-[60] flex flex-col bg-g2 xl:hidden" role="dialog" aria-modal="true" aria-label="Menu">
               <div className="wrap flex h-[60px] items-center justify-between border-b border-line">
                 <Lockup />
                 <button type="button" aria-label="Close menu" onClick={() => setMenu(false)} className="grid size-9 place-items-center rounded-[6px] border border-line">

@@ -30,8 +30,40 @@ Live in this repository:
 | Account panel beside the long pages: sample instructions are drafted, checked and applied with the same engine | `/`, `/use-cases`, `/build`, `/commerce` |
 | Early-access request, signed with the wallet and stored on the device | `/waitlist` |
 | Live chain reads (block number, balances) through a read-only RPC relay | `/api/rpc` |
+| **On-chain account** (`OierAccount`): create it at an address known in advance, deposit ETH or USDG, propose transfers with a live `check()` pre-flight, a queue with recall, co-signer approvals (transaction or EIP-712 signature), rules on-chain with guards, guardian recovery | `/account`, `/account/send`, `/account/queue`, `/account/rules`, `/account/recovery` |
+| Factory deployment from the connected wallet (project owner) | `/deploy` |
 
-Coming later: the on-chain rule account that enforces a committed set on Robinhood Chain, `$OIER` transfers with terms, agent accounts, recovery, and a language model in front of the deterministic grammar. The `$OIER` contract address shows "Published at launch" until it exists.
+Until the factory is deployed the Account pages show "Not deployed yet". Coming later: agent session keys, `$OIER` transfers with terms, and a language model in front of the deterministic grammar. The `$OIER` contract address shows "Published at launch" until it exists.
+
+## On-chain enforcement (unaudited)
+
+> **The contracts are unaudited.** They hold real funds once used. Start with small amounts and set a co-signer and guardians you trust.
+
+`contracts/src/OierAccount.sol` is a plain contract account (no ERC-4337, no bundler, no paid service). Its owner can only *propose* transfers; the contract decides:
+
+| Rule | Enforced how |
+| --- | --- |
+| Payee allowlist and blocklist | `propose` and again at `execute` |
+| Per-transfer cap, 24-hour cap (hourly buckets), 7-day cap (daily buckets), per asset | counted at `propose`, refunded on recall |
+| Co-signer above an amount | `approveTransfer` or `approveTransferWithSig` (EIP-712) by the required number of co-signers |
+| Settlement delay and recall | `execute` only after `executeAfter`; owner, co-signers or guardians can `cancelTransfer` until then |
+| New-payee cooldown | a payee first seen at time T cannot be paid before T + cooldown |
+| Quiet hours, lock date | `execute` refuses inside quiet hours or before the lock date |
+| Guarded rule changes (rule chains) | `configure` applies tightening at once; loosening is queued behind the rule's guard (delay, co-signer approvals, or never if frozen). Guards are rules with their own guards. Freezing and long locks also wait, so a stolen key cannot brick the account |
+| Guardian recovery | guardians start and support a recovery; after the threshold and the timelock anyone can finalize it. The owner can veto unless every guardian supports it |
+
+There is no admin key, no upgrade path and no generic call function. `OierAccountFactory` deploys accounts with CREATE2 at an address that depends only on the owner and a salt; it only accepts bytecode whose hash matches the one fixed at its deployment, and keeps no rights.
+
+Tests: `forge test` (Foundry; 26 unit and fuzz tests plus two invariants: a stolen owner key never pays a non-listed address before a loosening change has waited its full delay, and live proposals never exceed the 24-hour cap in any window).
+
+### Deploying the factory (project owner)
+
+1. Run the site with a wallet that holds a little ETH on Robinhood Chain.
+2. Open `/deploy`, connect, check the `accountCodeHash` shown, press **Deploy factory** and confirm in the wallet. Measured cost: about 413,000 gas, roughly 0.00002 ETH at 0.03 gwei.
+3. Copy the factory address into `FACTORY` in `src/config/contracts.ts` (or set `NEXT_PUBLIC_OIER_FACTORY` at build time) and redeploy the site.
+4. Each person then creates their own account on `/account` (about 4.5 to 5.2 million gas including the bytecode, roughly 0.00015 to 0.0002 ETH at 0.03 gwei). Day-to-day calls cost 50,000 to 300,000 gas.
+
+After changing the contracts: `forge build && npm run abi` regenerates `src/contracts/*`.
 
 ## Run it locally
 
@@ -43,7 +75,7 @@ npm run build
 npm start          # http://localhost:4790
 ```
 
-Engine self-check: `npm run test:rules`.
+Engine self-check: `npm run test:rules`. Contract tests need [Foundry](https://getfoundry.sh): `forge test`.
 
 Optional environment variables (the app works without them). Copy `.env.example` to `.env.local` and fill in only what you need:
 
@@ -69,8 +101,15 @@ The site offers to add it when you connect.
 ## Project layout
 
 ```
+contracts/src/           OierAccount.sol, OierAccountFactory.sol
+contracts/test/          Foundry unit, fuzz and invariant tests
 src/
-  app/(site)/            pages: home, studio, token, use-cases, technology, build, commerce, about, waitlist, privacy, terms, notices
+  app/(site)/            pages: home, studio, account/*, deploy, token, use-cases, technology, build, commerce, about, waitlist, privacy, terms, notices
+  components/account/    account pages, deploy panel
+  config/contracts.ts    factory address (one place)
+  contracts/             generated ABI + bytecode (npm run abi)
+  lib/oier.ts            contract reads, encodings, address prediction
+  lib/compile.ts         Rule Studio set to on-chain rule calls
   app/api/rpc/           read-only JSON-RPC relay
   components/studio/     Rule Studio, simulator, per-address storage
   components/demo/       account panel used beside the long pages

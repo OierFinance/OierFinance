@@ -38,9 +38,10 @@ export async function batch(calls: RpcCall[]): Promise<(unknown | null)[]> {
           signal: AbortSignal.timeout(8000),
         });
         if (!res.ok) throw new Error(`rpc ${res.status}`);
-        const body = (await res.json()) as { id: number; result?: unknown }[];
+        const body = (await res.json()) as { id: number; result?: unknown; error?: { code?: number; message?: string; data?: unknown } }[];
         if (!Array.isArray(body)) throw new Error("rpc batch unsupported");
-        for (const item of body) out[item.id] = item.result ?? null;
+        // Call errors (reverts) are passed through so the browser can explain them.
+        for (const item of body) out[item.id] = item.error ? { __rpcError: item.error } : (item.result ?? null);
       }
       return out;
     } catch (error) {

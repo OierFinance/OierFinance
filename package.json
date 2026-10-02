@@ -8,13 +8,16 @@
     "start": "next start -p 4790",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test:rules": "node --experimental-strip-types scripts/rules-check.ts"
+    "test:rules": "node --experimental-strip-types scripts/rules-check.ts",
+    "abi": "node scripts/export-abi.mjs",
+    "test:contracts": "forge test"
   },
   "dependencies": {
     "@walletconnect/ethereum-provider": "^2.25.0",
     "next": "16.3.5",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "viem": "^2.57.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
