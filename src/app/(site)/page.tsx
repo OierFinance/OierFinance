@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BRAND, CHAIN } from "@/config/brand";
+import { BRAND, CHAIN, TOKEN } from "@/config/brand";
 import { CaStrip } from "@/components/CopyCa";
 import { AccountSlips, ChainDiagram, TransferDiagram } from "@/components/home/Diagrams";
 import { CtaBand, NightHero, StoryWithPanel, type Story } from "@/components/site/parts";
@@ -27,7 +27,9 @@ const STORIES: Story[] = [
       <div className="mt-8 grid gap-3 border-t border-line pt-6">
         <CaStrip />
         <p className="font-serif text-[15px] leading-[1.6] text-ink-2">
-          No contract exists yet, so the address field shows “Published at launch” and copying is switched off.{" "}
+          {TOKEN.isLive
+            ? `The ${BRAND.symbol} contract is live on ${CHAIN.name}. Copy it here or from the footer, and ignore any other address using the name.`
+            : "No contract exists yet, so the address field shows “Published at launch” and copying is switched off."}{" "}
           <Link href="/token" className="text-acc underline underline-offset-2">Read the token page</Link>
         </p>
       </div>

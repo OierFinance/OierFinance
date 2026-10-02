@@ -1,9 +1,9 @@
 // Single place to change project identity. Everything on the site reads from here.
-// The token contract below is a placeholder until launch: paste the real
-// 0x address (0x + 40 hex) into CA and the navbar pill, the footer block and
-// every copy button switch from "Published at launch" to a working copy.
+// The $OIER token contract on Robinhood Chain (set 2 Oct 2026; on chain name
+// "Oier Finance", symbol "OIER"). The navbar pill, the footer block and every copy
+// button read it from here. Pages that describe the token check TOKEN.isLive.
 
-const CA = "0xxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+const CA = "0xdA34f77BFd52Af86aac1c2C324DAFf17BA782a9D";
 
 export const isAddress = (v: string): v is `0x${string}` => /^0x[0-9a-fA-F]{40}$/.test(v);
 

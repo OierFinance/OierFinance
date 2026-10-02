@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { BRAND, CHAIN } from "@/config/brand";
+import { BRAND, CHAIN, TOKEN, explorerToken, shortAddress } from "@/config/brand";
+import { batch } from "@/lib/chain-server";
 import { CaStrip } from "@/components/CopyCa";
 import { TermsComposer } from "@/components/pages/TermsComposer";
 import { CtaBand, NightHero } from "@/components/site/parts";
@@ -9,12 +10,23 @@ export const metadata: Metadata = {
   description: `${BRAND.symbol} is money you can program: attach a spend rate, allowed purchases, a return date and an expiry to a payment.`,
 };
 
-const FACTS: [string, string][] = [
-  ["Ticker", BRAND.symbol],
-  ["Network", CHAIN.name],
-  ["Total supply", "Published at launch"],
-  ["Contract", "Published at launch"],
-];
+export const revalidate = 300;
+
+/** Total supply read from the token contract; null before launch or when the chain cannot be read. */
+async function totalSupply(): Promise<string | null> {
+  if (!TOKEN.isLive) return null;
+  try {
+    const [supply, decimals] = await batch([
+      { method: "eth_call", params: [{ to: BRAND.ca, data: "0x18160ddd" }, "latest"] },
+      { method: "eth_call", params: [{ to: BRAND.ca, data: "0x313ce567" }, "latest"] },
+    ]);
+    if (typeof supply !== "string") return null;
+    const d = typeof decimals === "string" ? Number(BigInt(decimals)) : 18;
+    return (BigInt(supply) / 10n ** BigInt(d)).toLocaleString("en-US");
+  } catch {
+    return null;
+  }
+}
 
 const CHAPTERS = [
   { kicker: "Spending scope", title: "Pin money to its purpose", body: "A grocery allowance that refuses everything except groceries. Saturday-only spending money for a child. A travel budget valid in one city. The condition is part of the payment, so nobody has to police it afterwards." },
@@ -33,7 +45,14 @@ const EARLY = [
   ["Attribution", "People who contribute rule building blocks are credited in the documentation."],
 ];
 
-export default function TokenPage() {
+export default async function TokenPage() {
+  const supply = await totalSupply();
+  const FACTS: [string, string][] = [
+    ["Ticker", BRAND.symbol],
+    ["Network", CHAIN.name],
+    ["Total supply", TOKEN.isLive ? supply ?? "Unavailable right now" : "Published at launch"],
+    ["Contract", TOKEN.isLive ? shortAddress(BRAND.ca, 6, 4) : "Published at launch"],
+  ];
   return (
     <>
       <NightHero
@@ -55,10 +74,24 @@ export default function TokenPage() {
       <section id="contract" className="wrap scroll-mt-[76px] pt-[var(--section)]">
         <div className="night night-bg grid grid-cols-1 gap-8 rounded-[12px] px-6 py-9 sm:px-10 sm:py-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
           <div>
-            <h2 className="h2">Where the address will appear</h2>
-            <p className="mt-4 max-w-[30em] font-serif text-[17px] leading-[1.6] text-ink-2">
-              There is no {BRAND.symbol} contract yet and no market for it. The real address will be published on this page and in the footer, with a copy button. Ignore any address that circulates before then.
-            </p>
+            <h2 className="h2">{TOKEN.isLive ? "The one address" : "Where the address will appear"}</h2>
+            {TOKEN.isLive ? (
+              <>
+                <p className="mt-4 max-w-[30em] font-serif text-[17px] leading-[1.6] text-ink-2">
+                  This is the only {BRAND.symbol} contract. It is also in the footer of every page. Any other token using the name is not ours.
+                </p>
+                <p className="mt-3 max-w-[30em] font-serif text-[15px] leading-[1.6] text-ink-3">
+                  Today {BRAND.symbol} is a standard token. The payment conditions described below are the design and are not built into the token yet. Transfer rules on your own money already run on chain through Oier accounts.
+                </p>
+                <a href={explorerToken(BRAND.ca)} target="_blank" rel="noreferrer" className="mt-5 inline-block text-[14.5px] text-acc underline underline-offset-2">
+                  View on {CHAIN.explorerName}
+                </a>
+              </>
+            ) : (
+              <p className="mt-4 max-w-[30em] font-serif text-[17px] leading-[1.6] text-ink-2">
+                There is no {BRAND.symbol} contract yet and no market for it. The real address will be published on this page and in the footer, with a copy button. Ignore any address that circulates before then.
+              </p>
+            )}
           </div>
           <div className="grid grid-cols-1 gap-3">
             <CaStrip />

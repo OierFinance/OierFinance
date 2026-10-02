@@ -14,7 +14,7 @@ Oier lets you write the safety nets yourself, in plain English, and makes the ac
 - **Rules before signatures.** "Only pay Priya and Halden Exchange" becomes `to ∈ {Priya, Halden Exchange}` and is evaluated on every transfer, so a leaked key cannot pay anyone else.
 - **Tested before it takes effect.** Each new rule is compared with the whole set. Contradictions are rejected with the clashing rules named; rules that add nothing, or that leave a listed payee unpayable, are flagged.
 - **Guarded rules.** A rule can control edits to another: "Changing rule 1 needs 2 approvals and a 7-day notice", "Freeze rule 2".
-- **Conditional money.** `$OIER` payments can carry a spending pace, allowed purchases, a return date and an expiry.
+- **Conditional money (design).** `$OIER` payments are designed to carry a spending pace, allowed purchases, a return date and an expiry. The live token is a standard token today; these terms are not built into it yet.
 - **Agent budgets.** AI agents get spending rules instead of keys.
 - **Bank-style safety nets, self-custodied.** Payment delays, co-signers and recovery expressed as rules.
 
@@ -33,7 +33,7 @@ Live in this repository:
 | **On-chain account** (`OierAccount`): create it at an address known in advance, deposit ETH or USDG, propose transfers with a live `check()` pre-flight, a queue with recall, co-signer approvals (transaction or EIP-712 signature), rules on-chain with guards, guardian recovery | `/account`, `/account/send`, `/account/queue`, `/account/rules`, `/account/recovery` |
 | Factory deployment from the connected wallet (project owner) | `/deploy` |
 
-The account factory is live on Robinhood Chain, so the Account pages work against mainnet today (unaudited: start small). Coming later: agent session keys, `$OIER` transfers with terms, and a language model in front of the deterministic grammar. The `$OIER` contract address shows "Published at launch" until it exists.
+The account factory is live on Robinhood Chain, so the Account pages work against mainnet today (unaudited: start small). Coming later: agent session keys, `$OIER` transfers with terms, and a language model in front of the deterministic grammar. The `$OIER` token is live (see Token contract below).
 
 ## On-chain enforcement (unaudited)
 
@@ -129,4 +129,6 @@ scripts/rules-check.ts   engine self-check
 
 ## Token contract
 
-`$OIER` on Robinhood Chain: **published at launch.** The address is set in one place, `src/config/brand.ts` (`CA`), and appears with a copy button in the navbar and footer once it is a valid `0x` address.
+`$OIER` on Robinhood Chain (chain id 4663): **`0xdA34f77BFd52Af86aac1c2C324DAFf17BA782a9D`** ([view on Blockscout](https://robinhoodchain.blockscout.com/token/0xdA34f77BFd52Af86aac1c2C324DAFf17BA782a9D)). Name "Oier Finance", symbol `OIER`, total supply 1,000,000,000. Any other token using the name is not ours.
+
+The address is set in one place, `src/config/brand.ts` (`CA`), and appears with a copy button in the navbar and footer; the token page reads the supply from the chain.
