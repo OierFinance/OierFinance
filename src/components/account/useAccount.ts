@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { isAddress, USDG } from "@/config/brand";
-import { NATIVE } from "@/config/contracts";
+import { NATIVE, OIER_FACTORY } from "@/config/contracts";
 import { useWallet } from "@/components/wallet/WalletProvider";
 import { waitForReceipt } from "@/lib/rpc";
 import { accountAbi, balanceOf, factoryAddress, getCode, latestTimestamp, predictAccount, readMany, simulate, type Limits } from "@/lib/oier";
@@ -37,7 +37,8 @@ export type AccountState = {
 /** The viewed account: ?account=0x… when given, else the connected wallet's own predicted account. */
 export function useAccount() {
   const { address } = useWallet();
-  const [factory, setFactory] = useState<`0x${string}` | null>(null);
+  // Start from the configured factory so the first render does not flash "Not deployed yet".
+  const [factory, setFactory] = useState<`0x${string}` | null>(isAddress(OIER_FACTORY) ? OIER_FACTORY : null);
   const [override, setOverride] = useState<string | null>(null);
   const [exists, setExists] = useState<boolean | null>(null);
   const [state, setState] = useState<AccountState | null>(null);

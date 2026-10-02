@@ -1,7 +1,7 @@
 # Oier Finance
 
 **Own it. Immutable. Enforce. Rules.**
-An AI-powered wallet with mathematically immutable rules, on Robinhood Chain. Ticker `$OIER`, site [oier.finance](https://oier.finance), X [@oierfinance](https://x.com/oierfinance).
+An AI-powered wallet with mathematically immutable rules, on Robinhood Chain. Ticker `$OIER`, site [oier.finance](https://oier.finance), X [@oierfinance](https://x.com/oierfinance), source [github.com/OierFinance/OierFinance](https://github.com/OierFinance/OierFinance).
 
 ## The problem
 
@@ -33,7 +33,7 @@ Live in this repository:
 | **On-chain account** (`OierAccount`): create it at an address known in advance, deposit ETH or USDG, propose transfers with a live `check()` pre-flight, a queue with recall, co-signer approvals (transaction or EIP-712 signature), rules on-chain with guards, guardian recovery | `/account`, `/account/send`, `/account/queue`, `/account/rules`, `/account/recovery` |
 | Factory deployment from the connected wallet (project owner) | `/deploy` |
 
-Until the factory is deployed the Account pages show "Not deployed yet". Coming later: agent session keys, `$OIER` transfers with terms, and a language model in front of the deterministic grammar. The `$OIER` contract address shows "Published at launch" until it exists.
+The account factory is live on Robinhood Chain, so the Account pages work against mainnet today (unaudited: start small). Coming later: agent session keys, `$OIER` transfers with terms, and a language model in front of the deterministic grammar. The `$OIER` contract address shows "Published at launch" until it exists.
 
 ## On-chain enforcement (unaudited)
 
@@ -56,7 +56,15 @@ There is no admin key, no upgrade path and no generic call function. `OierAccoun
 
 Tests: `forge test` (Foundry; 26 unit and fuzz tests plus two invariants: a stolen owner key never pays a non-listed address before a loosening change has waited its full delay, and live proposals never exceed the 24-hour cap in any window).
 
-### Deploying the factory (project owner)
+### Live deployment
+
+| Contract | Address |
+| --- | --- |
+| `OierAccountFactory` | [`0x8371C031e8786Fa333dBFE4474998182e27A936A`](https://robinhoodchain.blockscout.com/address/0x8371C031e8786Fa333dBFE4474998182e27A936A) |
+
+Deployed on Robinhood Chain (chain id 4663) on 2 October 2026, block 78,173,546. Its `accountCodeHash` is `0xbb58da43585fd2312ecf8d6178e9d034a8105dbecbd9e12189eb89b6cb6f09f6`, the hash of the `OierAccount` bytecode shipped in `src/contracts/`. Changing `OierAccount.sol` changes that hash, so a modified account needs a new factory (and gets new addresses). Each person's account is deployed by that person through the factory; nobody else holds rights over it.
+
+### Deploying your own factory
 
 1. Run the site with a wallet that holds a little ETH on Robinhood Chain.
 2. Open `/deploy`, connect, check the `accountCodeHash` shown, press **Deploy factory** and confirm in the wallet. Measured cost: about 413,000 gas, roughly 0.00002 ETH at 0.03 gwei.

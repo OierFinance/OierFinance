@@ -2,25 +2,37 @@ import Link from "next/link";
 import { BRAND } from "@/config/brand";
 
 /**
- * The Oier mark: a key whose bow is the O of Oier (own it). Temporary art
- * drawn for the site; to swap in the owner's logo, replace the SVG below
- * (or render public/brand/mark.webp) and regenerate src/app/favicon.ico,
- * icon.png, apple-icon.png and the opengraph/twitter images.
+ * The owner's Oier mark: two tilted rings forming an "O". The source art is
+ * single-colour white, so it is drawn as a CSS mask over `currentColor` and
+ * follows the text colour of wherever it sits (ink on paper, white on navy).
+ * File: public/brand/mark.webp (512 square, transparent). To swap the logo,
+ * replace that file (and regenerate the icons in src/app from the same art).
  */
 export function Mark({ size = 26, className = "" }: { size?: number; className?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden className={`shrink-0 ${className}`}>
-      <rect width="64" height="64" rx="12" fill="#0e7c6b" />
-      <circle cx="23" cy="32" r="11" fill="none" stroke="#ffffff" strokeWidth="6.5" />
-      <path d="M34 32h20M47 32v8M54 32v6" fill="none" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <span
+      aria-hidden
+      className={`inline-block shrink-0 bg-current ${className}`}
+      style={{
+        width: size,
+        height: size,
+        WebkitMaskImage: "url(/brand/mark.webp)",
+        maskImage: "url(/brand/mark.webp)",
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+      }}
+    />
   );
 }
 
 export function Lockup({ compact = false }: { compact?: boolean }) {
   return (
-    <Link href="/" className="flex shrink-0 items-center gap-2.5 text-ink" aria-label={`${BRAND.name} home`}>
-      <Mark size={26} />
+    <Link href="/" className="flex shrink-0 items-center gap-2 text-ink" aria-label={`${BRAND.name} home`}>
+      <Mark size={30} />
       <span className={`whitespace-nowrap font-display text-[18px] font-bold tracking-[-0.02em] ${compact ? "hidden sm:inline" : ""}`}>
         {BRAND.word} <span className="font-medium text-ink-3">Finance</span>
       </span>

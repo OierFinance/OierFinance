@@ -6,7 +6,8 @@
 // build time) overrides it, which is how local fork tests point the site at a
 // throwaway factory.
 
-const FACTORY = "";
+// Deployed 2 Oct 2026, block 78173546, accountCodeHash 0xbb58da43…6f09f6.
+const FACTORY = "0x8371C031e8786Fa333dBFE4474998182e27A936A";
 
 export const OIER_FACTORY: string = process.env.NEXT_PUBLIC_OIER_FACTORY || FACTORY;
 
